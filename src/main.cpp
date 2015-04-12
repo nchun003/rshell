@@ -5,7 +5,9 @@
 
 int main(int argc, char **argv)
 {
-	std::string usrin;
-	std::getline(std::cin, usrin);
+	std::cout << '$';
+	std::string usrin; 
+	std::getline(std::cin,usrin);
+	
 	return 0;	
 }

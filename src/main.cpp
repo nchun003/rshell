@@ -44,18 +44,18 @@ void findconnectors(char *token)		//Checks if a token is a connector
 	strcpy(andd, sand.c_str());
 	std::string col = ";";
 	char *coll = new char [col.length()+1];
-	std::cout << "token:" << token << " or:" << orr << std::endl;
+//	std::cout << "token:" << token << " or:" << orr << std::endl;
 	if(*token == *orr)
 	{
-		std::cout << "OR!" << std::endl;	
+	//	std::cout << "OR!" << std::endl;	
 	} 
 	else if(*token == *andd)
 	{
-		std::cout << "AND!" << std::endl;
+	//	std::cout << "AND!" << std::endl;
 	}
 	else if(*token == *coll)
 	{
-		std::cout << "COLON!" << std::endl;
+	//	std::cout << "COLON!" << std::endl;
 	}
 
 }
@@ -67,7 +67,7 @@ void parsing(char *inpt)			//parses by using spaces
         char *comm_1 = strtok(inpt, " ");
         while(comm_1 != NULL)
         {
-                std::cout << comm_1 << std::endl;
+        //        std::cout << comm_1 << std::endl;
 		findconnectors(comm_1);
 		comm_1 = strtok(NULL, " ");
         }
@@ -77,11 +77,16 @@ void parsing(char *inpt)			//parses by using spaces
 
 int main(int argc, char **argv)
 {
-	std::cout << '$'; 			
+	std::cout << "$ "; 			
 	std::string usrin;			//reads in user input
 	std::getline(std::cin,usrin);		//convert to cstring for parsing
+	if(usrin == "exit")
+	{
+		exit(0);
+	}
 	char *cstr = new char [usrin.length()+1];
 	std::strcpy (cstr, usrin.c_str());
-	parsing(cstr); 
+	parsing(cstr);
+	exec(argv); 
 	return 0;	
 }

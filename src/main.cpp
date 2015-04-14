@@ -6,16 +6,26 @@
 
 void findconnectors(char *token)
 {
-	char *orr;
-	std::strcpy(orr, "||");
-	char *andd;
-	std::strcpy(andd, "&&");
-	char *col;
-	std::strcpy(col, ";");
-	if(token == orr)
+	std::string sor = "||";
+	char *orr = new char [sor.length()+1];
+	strcpy(orr, sor.c_str());
+	std::string sand = "&&";
+	char *andd = new char [sand.length()+1];
+	strcpy(andd, sand.c_str());
+	std::string col = ";";
+	char *coll = new char [col.length()+1];
+	std::cout << "token:" << token << " or:" << orr << std::endl;
+	if(*token == *orr)
 	{
-		std::cout<<"or" << std::endl;
+		
+	} 
+	else if(*token == *andd)
+	{
 	}
+	else if(*token == *coll)
+	{
+	}
+
 }
 	
 
@@ -26,6 +36,7 @@ void parsing(char *inpt)			//parses by using spaces
         while(comm_1 != NULL)
         {
                 std::cout << comm_1 << std::endl;
+		findconnectors(comm_1);
 		comm_1 = strtok(NULL, " ");
         }
 

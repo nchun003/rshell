@@ -79,7 +79,7 @@ void parsing(char *inpt)			//parses by using spaces
 		comm_1 = strtok(NULL, " ");
         }
 	std::cout << args[0] << " " << args[1] << " " << args[2];
-
+	exec(args);
 }
 
 
@@ -95,6 +95,5 @@ int main(int argc, char **argv)
 	char *cstr = new char [usrin.length()+1];
 	std::strcpy (cstr, usrin.c_str());
 	parsing(cstr);
-	exec(argv);
 	return 0;	
 }

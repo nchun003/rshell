@@ -34,7 +34,7 @@ void exec(char **argv)
 
 }
 
-void findconnectors(char *token)		//Checks if a token is a connector
+void findconnectors(char *token,int &i, char **&j)		//Checks if a token is a connector
 {
 	std::string sor = "||";
 	char *orr = new char [sor.length()+1];
@@ -57,6 +57,11 @@ void findconnectors(char *token)		//Checks if a token is a connector
 	{
 	//	std::cout << "COLON!" << std::endl;
 	}
+	else{
+	//	char *newptr = token;
+		j[i] = token;
+		i++;
+	}
 
 }
 	
@@ -64,13 +69,16 @@ void findconnectors(char *token)		//Checks if a token is a connector
 
 void parsing(char *inpt)			//parses by using spaces
 {
+	int numarg = 0;
+	char **args; 
         char *comm_1 = strtok(inpt, " ");
         while(comm_1 != NULL)
         {
         //        std::cout << comm_1 << std::endl;
-		findconnectors(comm_1);
+		findconnectors(comm_1,numarg, args);
 		comm_1 = strtok(NULL, " ");
         }
+	std::cout << args[0] << " " << args[1] << " " << args[2];
 
 }
 
@@ -87,6 +95,6 @@ int main(int argc, char **argv)
 	char *cstr = new char [usrin.length()+1];
 	std::strcpy (cstr, usrin.c_str());
 	parsing(cstr);
-	exec(argv); 
+	exec(argv);
 	return 0;	
 }

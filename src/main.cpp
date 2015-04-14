@@ -4,13 +4,20 @@
 #include <unistd.h>
 #include <cstring>
 
-void checkforcon(char *token)
+void findconnectors(char *token)
 {
-	if(token == "||")
+	char *orr;
+	std::strcpy(orr, "||");
+	char *andd;
+	std::strcpy(andd, "&&");
+	char *col;
+	std::strcpy(col, ";");
+	if(token == orr)
 	{
-		std::cout << "or";
+		std::cout<<"or" << std::endl;
 	}
 }
+	
 
 
 void parsing(char *inpt)			//parses by using spaces
@@ -19,7 +26,6 @@ void parsing(char *inpt)			//parses by using spaces
         while(comm_1 != NULL)
         {
                 std::cout << comm_1 << std::endl;
-		checkforcon(comm_1);
 		comm_1 = strtok(NULL, " ");
         }
 

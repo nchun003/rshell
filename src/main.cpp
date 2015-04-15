@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-
+#include <queue>
 
 void exec(char **argv)
 {
@@ -44,42 +44,48 @@ void findconnectors(char *token,int &i, char **&j)		//Checks if a token is a con
 	strcpy(andd, sand.c_str());
 	std::string col = ";";
 	char *coll = new char [col.length()+1];
-//	std::cout << "token:" << token << " or:" << orr << std::endl;
+	strcpy(coll, col.c_str());
+////	std::cout << "token:" << token << " or:" << orr << std::endl;
+//	std::queue<char> alltokens;				//Queue with ALL  tokens
+//	alltokens.push(token);
+//	std::cout << "token:"<< std::endl<<*token << std::cout <<"OR:"<< orr<< std::endl;
 	if(*token == *orr)
 	{
-	//	std::cout << "OR!" << std::endl;	
+		std::cout << "OR!" << std::endl;		
 	} 
 	else if(*token == *andd)
 	{
-	//	std::cout << "AND!" << std::endl;
+		std::cout << "AND!" << std::endl;
 	}
 	else if(*token == *coll)
 	{
-	//	std::cout << "COLON!" << std::endl;
+		std::cout << "COLON!" << std::endl;
 	}
 	else{
-	//	char *newptr = token;
+		++i;
 		j[i] = token;
-		i++;
+		j[i+1] = '\0';
+	//	delete j;
+		//++i;
 	}
-
 }
 	
 
 
 void parsing(char *inpt)			//parses by using spaces
 {
-	int numarg = 0;
+	int numarg = -1;
+//	int cap = 0;
 	char **args; 
         char *comm_1 = strtok(inpt, " ");
         while(comm_1 != NULL)
         {
-        //        std::cout << comm_1 << std::endl;
+		//std::cout << comm_1 << std::endl;
 		findconnectors(comm_1,numarg, args);
 		comm_1 = strtok(NULL, " ");
         }
-	std::cout << args[0] << " " << args[1] << " " << args[2];
 	exec(args);
+	return;
 }
 
 

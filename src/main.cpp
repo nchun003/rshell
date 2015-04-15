@@ -36,25 +36,31 @@ void exec(char **argv)
 
 void expand(int &size2, int &cap2, char **&array)
 {
+	int i;
 	if(size2 ==1)
 	{
 		cap2 = size2;
 		cap2 = cap2*2;
 		array = new char*[cap2];
-	//	std::cout << size2;
+		for(int n=0; n<cap2; n++)
+		{
+			array[n] = '\0';
+		}
 		return;
 	}
-//	if(cap2 == 0)
-//	{
-//		cap2 = size2;
-//	}
-	cap2 = cap2 *2;
-	char **temp;
-	temp = array;
-	array = new char*[cap2];
-	for(int i =0; i<size2 ; ++i)
-	{
-		array[i] = temp[i];
+	else{
+		cap2 = cap2 *2;
+		char **temp;
+		temp = array;
+		array = new char*[cap2];
+		for(i =0; i<size2 ; ++i)
+		{
+			array[i] = temp[i];
+		}
+		for(int k = size2; k<cap2; k++)
+		{
+			array[k] = '\0';
+		}
 	}
 }
 
@@ -100,12 +106,12 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 	//		strcpy(newlist[z], j[z]);
 	//	}
 		++i;
-		if(i > capacity)
+		if(i >= capacity)
 		{
 			expand(i, capacity, j);
 		}
-		j[--i] = token;
-		//j[i] = '\0';
+		int z = i-1;
+		j[z] = token;
 	}
 }
 	
@@ -118,13 +124,14 @@ void parsing(char *inpt)			//parses by using spaces
         char *comm_1 = strtok(inpt, " ");
         while(comm_1 != NULL)
         {
-		//std::cout << comm_1 << std::endl;
+	//	std::cout << comm_1 << std::endl;
 	//	char **temp = args;
 	//	char **args= new char*[50];
 		findconnectors(comm_1,numarg, args, cap);
 		comm_1 = strtok(NULL, " ");
         }
-	std::cout << numarg;
+//	std::cout << numarg;
+//	std::cout << args[0] << args[1];
 	exec(args);
 	return;
 }

@@ -38,8 +38,10 @@ void expand(int &size2, int &cap2, char **&array)
 {
 	if(size2 ==1)
 	{
+		cap2 = size2;
 		cap2 = cap2*2;
 		array = new char*[cap2];
+	//	std::cout << size2;
 		return;
 	}
 //	if(cap2 == 0)
@@ -102,9 +104,8 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 		{
 			expand(i, capacity, j);
 		}
-
-		j[i] = token;
-		j[i+1] = '\0';
+		j[--i] = token;
+		//j[i] = '\0';
 	}
 }
 	
@@ -123,6 +124,7 @@ void parsing(char *inpt)			//parses by using spaces
 		findconnectors(comm_1,numarg, args, cap);
 		comm_1 = strtok(NULL, " ");
         }
+	std::cout << numarg;
 	exec(args);
 	return;
 }

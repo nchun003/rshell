@@ -34,7 +34,33 @@ void exec(char **argv)
 
 }
 
-void findconnectors(char *token,int &i, char **&j)		//Checks if a token is a connector
+void expand(int &size2, int &cap2, char **&array)
+{
+	if(size2 ==1)
+	{
+		cap2 = cap2*2;
+		array = new char*[cap2];
+		return;
+	}
+//	if(cap2 == 0)
+//	{
+//		cap2 = size2;
+//	}
+	cap2 = cap2 *2;
+	char **temp;
+	temp = array;
+	array = new char*[cap2];
+	for(int i =0; i<size2 ; ++i)
+	{
+		array[i] = temp[i];
+	}
+}
+
+
+
+
+
+void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a token is a connector
 {
 	std::string sor = "||";
 	char *orr = new char [sor.length()+1];
@@ -62,26 +88,39 @@ void findconnectors(char *token,int &i, char **&j)		//Checks if a token is a con
 		std::cout << "COLON!" << std::endl;
 	}
 	else{
+//		char **temp = j;
+//		char **j = new char*[50];
+	//	char **newlist;
+	//	newlist = malloc(sizeof(*newlist) * i);
+	//	for(int z = 0; z < i; z++)
+	//	{
+	//		newlist[z] = malloc(sizeof(**newlist) * (strlen(*j[z]) +1));
+	//		strcpy(newlist[z], j[z]);
+	//	}
 		++i;
+		if(i > capacity)
+		{
+			expand(i, capacity, j);
+		}
+
 		j[i] = token;
 		j[i+1] = '\0';
-	//	delete j;
-		//++i;
 	}
 }
 	
 
-
 void parsing(char *inpt)			//parses by using spaces
 {
-	int numarg = -1;
-//	int cap = 0;
+	int numarg = 0;
+	int cap = 0;
 	char **args; 
         char *comm_1 = strtok(inpt, " ");
         while(comm_1 != NULL)
         {
 		//std::cout << comm_1 << std::endl;
-		findconnectors(comm_1,numarg, args);
+	//	char **temp = args;
+	//	char **args= new char*[50];
+		findconnectors(comm_1,numarg, args, cap);
 		comm_1 = strtok(NULL, " ");
         }
 	exec(args);

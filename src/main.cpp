@@ -65,9 +65,6 @@ void expand(int &size2, int &cap2, char **&array)
 }
 
 
-
-
-
 void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a token is a connector
 {
 	std::string sor = "||";
@@ -79,10 +76,15 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 	std::string col = ";";
 	char *coll = new char [col.length()+1];
 	strcpy(coll, col.c_str());
-////	std::cout << "token:" << token << " or:" << orr << std::endl;
-//	std::queue<char> alltokens;				//Queue with ALL  tokens
-//	alltokens.push(token);
-//	std::cout << "token:"<< std::endl<<*token << std::cout <<"OR:"<< orr<< std::endl;
+
+	char *result = token;
+	while((result = std::strstr(result, coll)) != NULL){
+		//std::cout << "Found " << coll << "starting at " << result << std::endl;
+		strncpy(result, "\0", 2);
+		++result;
+	}
+	
+
 	if(*token == *orr)
 	{
 		std::cout << "OR!" << std::endl;		
@@ -96,15 +98,6 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 		std::cout << "COLON!" << std::endl;
 	}
 	else{
-//		char **temp = j;
-//		char **j = new char*[50];
-	//	char **newlist;
-	//	newlist = malloc(sizeof(*newlist) * i);
-	//	for(int z = 0; z < i; z++)
-	//	{
-	//		newlist[z] = malloc(sizeof(**newlist) * (strlen(*j[z]) +1));
-	//		strcpy(newlist[z], j[z]);
-	//	}
 		++i;
 		if(i >= capacity)
 		{
@@ -124,14 +117,9 @@ void parsing(char *inpt)			//parses by using spaces
         char *comm_1 = strtok(inpt, " ");
         while(comm_1 != NULL)
         {
-	//	std::cout << comm_1 << std::endl;
-	//	char **temp = args;
-	//	char **args= new char*[50];
 		findconnectors(comm_1,numarg, args, cap);
 		comm_1 = strtok(NULL, " ");
         }
-//	std::cout << numarg;
-//	std::cout << args[0] << args[1];
 	exec(args);
 	return;
 }
@@ -139,15 +127,18 @@ void parsing(char *inpt)			//parses by using spaces
 
 int main(int argc, char **argv)
 {
-	std::cout << "$ "; 			
-	std::string usrin;			//reads in user input
-	std::getline(std::cin,usrin);		//convert to cstring for parsing
-	if(usrin == "exit")
+	std::string usrin;
+	while(usrin != "exit")
 	{
-		exit(0);
+		std::cout << "$ "; 			
+		std::getline(std::cin,usrin);		//convert to cstring for parsing
+		if(usrin == "exit")
+		{
+			exit(0);
+		}
+		char *cstr = new char [usrin.length()+1];
+		std::strcpy (cstr, usrin.c_str());
+		parsing(cstr);
 	}
-	char *cstr = new char [usrin.length()+1];
-	std::strcpy (cstr, usrin.c_str());
-	parsing(cstr);
 	return 0;	
 }

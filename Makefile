@@ -1,7 +1,8 @@
+CXX = g++
 all:
-	-Wall -Werror -ansi -pedantic
+	$(CXX) -Wall -Werror -ansi -pedantic -o rshell src/main.cpp
 
 rshell:
-	-Wall -Werror -ansi -pedantic
+	$(CXX) -Wall -Werror -ansi -pedantic -o rshell src/main.cpp
 
 

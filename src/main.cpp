@@ -119,6 +119,7 @@ void parsing(char *inpt)			//parses by using spaces
         {
 		findconnectors(comm_1,numarg, args, cap);
 		comm_1 = strtok(NULL, " ");
+//		exec(args);
         }
 	exec(args);
 	return;

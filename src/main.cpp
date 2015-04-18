@@ -67,6 +67,7 @@ void expand(int &size2, int &cap2, char **&array)
 
 void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a token is a connector
 {
+	int iscol = 0;
 	std::string sor = "||";
 	char *orr = new char [sor.length()+1];
 	strcpy(orr, sor.c_str());
@@ -79,11 +80,13 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 
 	char *result = token;
 	while((result = std::strstr(result, coll)) != NULL){
-		//std::cout << "Found " << coll << "starting at " << result << std::endl;
+//		std::cout << "Found " << coll << "starting at " << result << std::endl;
 		strncpy(result, "\0", 2);
+		iscol = 1;
 		++result;
+//		exec(j);
 	}
-	
+//	exec(j);	
 
 	if(*token == *orr)
 	{
@@ -99,12 +102,17 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 	}
 	else{
 		++i;
-		if(i >= capacity)
+		if(i >= capacity || i == 1)
 		{
 			expand(i, capacity, j);
 		}
 		int z = i-1;
 		j[z] = token;
+	}
+	if(iscol == 1)
+	{
+		exec(j);
+		i = 0;
 	}
 }
 	

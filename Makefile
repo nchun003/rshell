@@ -1,8 +1,8 @@
-CXX = g++
+CC=g++
 all:
-	$(CXX) -Wall -Werror -ansi -pedantic -o rshell src/main.cpp
+	bin rshell ls cp
 
 rshell:
-	$(CXX) -Wall -Werror -ansi -pedantic -o rshell src/main.cpp
+	$(CC) -Wall -Werror -ansi -pedantic -o rshell src/main.cpp -o bin/rshell
 
 

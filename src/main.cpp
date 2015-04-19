@@ -65,9 +65,8 @@ void expand(int &size2, int &cap2, char **&array)
 }
 
 
-void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a token is a connector
+void findconnectors(char *token,int &i, char **&j, int &capacity, int &connector2)		//Checks if a token is a connector
 {
-	int iscol = 0;
 	std::string sor = "||";
 	char *orr = new char [sor.length()+1];
 	strcpy(orr, sor.c_str());
@@ -78,29 +77,48 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 	char *coll = new char [col.length()+1];
 	strcpy(coll, col.c_str());
 
+//	if(connector2 == 2)
+//	{
+//		j = NULL;
+//		i = 0;
+//		return;
+//	}
+	if(*token == *coll)
+	{
+		connector2 = 1;
+		exec(j);
+		j = NULL;
+		i = 0;
+		return;
+	}
 	char *result = token;
-	while((result = std::strstr(result, coll)) != NULL){
+	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
 //		std::cout << "Found " << coll << "starting at " << result << std::endl;
 		strncpy(result, "\0", 2);
-		iscol = 1;
+		if(connector2 == 2)
+		{
+			j = NULL;
+			i = 0;
+			connector2 = 0;
+			return;
+		}
+		connector2 = 1;
 		++result;
-//		exec(j);
 	}
-//	exec(j);	
-
 	if(*token == *orr)
 	{
-		std::cout << "OR!" << std::endl;		
+		connector2 = 2; 
+		exec(j);
+		j = NULL;
+		i = 0;
+		return;		
 	} 
 	else if(*token == *andd)
 	{
 		std::cout << "AND!" << std::endl;
 	}
-	else if(*token == *coll)
-	{
-		std::cout << "COLON!" << std::endl;
-	}
 	else{
+		
 		++i;
 		if(i >= capacity || i == 1)
 		{
@@ -109,9 +127,11 @@ void findconnectors(char *token,int &i, char **&j, int &capacity)		//Checks if a
 		int z = i-1;
 		j[z] = token;
 	}
-	if(iscol == 1)
+	if(connector2 == 1)
 	{
 		exec(j);
+		connector2 = 0;
+		j = NULL;
 		i = 0;
 	}
 }
@@ -121,13 +141,13 @@ void parsing(char *inpt)			//parses by using spaces
 {
 	int numarg = 0;
 	int cap = 0;
+	int connector = 0;
 	char **args; 
         char *comm_1 = strtok(inpt, " ");
         while(comm_1 != NULL)
         {
-		findconnectors(comm_1,numarg, args, cap);
+		findconnectors(comm_1,numarg, args, cap, connector);
 		comm_1 = strtok(NULL, " ");
-//		exec(args);
         }
 	exec(args);
 	return;

@@ -11,6 +11,11 @@
 
 int exec(char **argv)
 {
+//	if(strcmp(argv[0], "exit") == 0)
+//	{
+//		std::cout << "exit called";
+//		exit(0);
+//	}
 	int errorcalled = 0;
 	int pid = fork();
 	if(pid == -1){
@@ -84,6 +89,12 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	std::string comment = "#";
 	char *comn = new char [comment.length()+1];	
 	strcpy(comn, comment.c_str());
+	std::string ext = "exit";
+	std::string tokenstring = token;
+	if(ext == tokenstring)
+	{
+		exit(0);
+	}
 	if(connector2 == 5)
 	{
 		return;
@@ -200,7 +211,7 @@ void parsing(char *inpt)									//parses by using spaces
 void userlogin()
 {
 	char *usrnme;
-	char hostname[150];
+	char hostname[128];
 	int hostnamework;
 	if((usrnme = getlogin()) == NULL)
 	{
@@ -226,7 +237,8 @@ int main(int argc, char **argv)
 		std::getline(std::cin,usrin);							//convert to cstring for parsing
 		if(usrin == "exit")
 		{
-			exit(0);
+			exec(0);	
+			return 0;
 		}
 		char *cstr = new char [usrin.length()+1];
 		std::strcpy (cstr, usrin.c_str());

@@ -8,8 +8,10 @@
 #include <stdlib.h>
 #include <queue>
 
-void exec(char **argv)
+
+int exec(char **argv)
 {
+	int errorcalled = 0;
 	int pid = fork();
 	if(pid == -1){
 		perror("ERROR!");
@@ -17,10 +19,12 @@ void exec(char **argv)
 	}
 	else if(pid == 0)			//Child process
 	{
-		std::cout << "Child Process";
+//		std::cout << "Child Process";
 		if(execvp(argv[0], argv))
 		{
-			perror("No error.");
+			perror("Not a valid command!");
+			errorcalled++;
+			return errorcalled;
 		}
 		exit(1);			//Child killed when done with task
 	}
@@ -31,6 +35,7 @@ void exec(char **argv)
 			perror("Wait error!");
 		}
 	}
+	return errorcalled;
 
 }
 
@@ -65,7 +70,7 @@ void expand(int &size2, int &cap2, char **&array)
 }
 
 
-void findconnectors(char *token,int &i, char **&j, int &capacity, int &connector2)		//Checks if a token is a connector
+void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connector2)		//Checks if a token is a connector
 {
 	std::string sor = "||";
 	char *orr = new char [sor.length()+1];
@@ -77,13 +82,7 @@ void findconnectors(char *token,int &i, char **&j, int &capacity, int &connector
 	char *coll = new char [col.length()+1];
 	strcpy(coll, col.c_str());
 
-//	if(connector2 == 2)
-//	{
-//		j = NULL;
-//		i = 0;
-//		return;
-//	}
-	if(*token == *coll)
+	if(*token == *coll)									//If token is ; everything before it will get executed
 	{
 		connector2 = 1;
 		exec(j);
@@ -105,19 +104,23 @@ void findconnectors(char *token,int &i, char **&j, int &capacity, int &connector
 		connector2 = 1;
 		++result;
 	}
-	if(*token == *orr)
+	if(*token == *orr)									//Everything before || will get executed
 	{
-		connector2 = 2; 
-		exec(j);
+		connector2 = 2;
+		if(exec(j) == 1)
+		{
+			connector2 = 0;
+		}
 		j = NULL;
 		i = 0;
+		
 		return;		
 	} 
 	else if(*token == *andd)
 	{
-		std::cout << "AND!" << std::endl;
+
 	}
-	else{
+	else{											//If token is not connector it will get put in j(argv)
 		
 		++i;
 		if(i >= capacity || i == 1)
@@ -127,7 +130,7 @@ void findconnectors(char *token,int &i, char **&j, int &capacity, int &connector
 		int z = i-1;
 		j[z] = token;
 	}
-	if(connector2 == 1)
+	if(connector2 == 1)									//If ; connector was found, everything before is executed
 	{
 		exec(j);
 		connector2 = 0;
@@ -137,7 +140,7 @@ void findconnectors(char *token,int &i, char **&j, int &capacity, int &connector
 }
 	
 
-void parsing(char *inpt)			//parses by using spaces
+void parsing(char *inpt)									//parses by using spaces
 {
 	int numarg = 0;
 	int cap = 0;
@@ -149,6 +152,10 @@ void parsing(char *inpt)			//parses by using spaces
 		findconnectors(comm_1,numarg, args, cap, connector);
 		comm_1 = strtok(NULL, " ");
         }
+	if(connector == 2)		   							//If || dont execute right side
+	{
+		return;
+	}
 	exec(args);
 	return;
 }
@@ -160,7 +167,7 @@ int main(int argc, char **argv)
 	while(usrin != "exit")
 	{
 		std::cout << "$ "; 			
-		std::getline(std::cin,usrin);		//convert to cstring for parsing
+		std::getline(std::cin,usrin);							//convert to cstring for parsing
 		if(usrin == "exit")
 		{
 			exit(0);

@@ -22,7 +22,7 @@ int exec(char **argv)
 //		std::cout << "Child Process";
 		if(execvp(argv[0], argv))
 		{
-			perror("Not a valid command!");
+			perror("execvp");
 			errorcalled++;
 			return errorcalled;
 		}
@@ -81,7 +81,26 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	std::string col = ";";
 	char *coll = new char [col.length()+1];
 	strcpy(coll, col.c_str());
-
+	std::string comment = "#";
+	char *comn = new char [comment.length()+1];	
+	strcpy(comn, comment.c_str());
+	if(connector2 == 5)
+	{
+		return;
+	}
+	if(*token == *comn)
+	{
+		exec(j);
+		j = NULL;
+		i = 0;
+		connector2 = 5;
+		return;
+	}
+	if(connector2 == 4)
+	{
+		return;
+	}
+	
 	if(*token == *coll)									//If token is ; everything before it will get executed
 	{
 		connector2 = 1;
@@ -91,6 +110,8 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		return;
 	}
 	char *result = token;
+//	result=strchr(token, ';');
+//	std::cout << result-token+1;
 	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
 //		std::cout << "Found " << coll << "starting at " << result << std::endl;
 		strncpy(result, "\0", 2);
@@ -106,6 +127,12 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	}
 	if(*token == *orr)									//Everything before || will get executed
 	{
+		if(connector2 == 2)
+		{
+			j = NULL;
+			i = 0;
+			return;
+		}
 		connector2 = 2;
 		if(exec(j) == 1)
 		{
@@ -118,10 +145,20 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	} 
 	else if(*token == *andd)
 	{
-
+		connector2 = 3; 
+		if(exec(j) == 1)
+		{
+			connector2 = 4;
+		}
+		j = NULL;
+		i = 0;
+		return;
 	}
 	else{											//If token is not connector it will get put in j(argv)
-		
+		if(connector2 == 2)
+		{
+			return;
+		}			
 		++i;
 		if(i >= capacity || i == 1)
 		{
@@ -160,12 +197,31 @@ void parsing(char *inpt)									//parses by using spaces
 	return;
 }
 
-
+void userlogin()
+{
+	char *usrnme;
+	char hostname[150];
+	int hostnamework;
+	if((usrnme = getlogin()) == NULL)
+	{
+		perror("getlogin() error");
+	}
+	hostnamework = gethostname(hostname, sizeof hostname);
+	if(hostnamework == 0)
+	{
+		std::cout << usrnme << "@" << hostname;
+	}
+	else{
+		perror("gethostname() error");
+	}
+}
+		
 int main(int argc, char **argv)
 {
 	std::string usrin;
 	while(usrin != "exit")
 	{
+		userlogin();
 		std::cout << "$ "; 			
 		std::getline(std::cin,usrin);							//convert to cstring for parsing
 		if(usrin == "exit")

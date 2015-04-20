@@ -9,13 +9,8 @@
 #include <queue>
 
 
-int exec(char **argv)
+int exec(char **&argv)
 {
-//	if(strcmp(argv[0], "exit") == 0)
-//	{
-//		std::cout << "exit called";
-//		exit(0);
-//	}
 	int errorcalled = 0;
 	int pid = fork();
 	if(pid == -1){
@@ -91,7 +86,11 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	strcpy(comn, comment.c_str());
 	std::string ext = "exit";
 	std::string tokenstring = token;
-	if(ext == tokenstring)
+	if((ext == tokenstring && connector2 == 3) || (ext == tokenstring && connector2 == 0))
+	{
+		exit(0);
+	}
+	if(ext == tokenstring && connector2 == 1)
 	{
 		exit(0);
 	}
@@ -121,8 +120,6 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		return;
 	}
 	char *result = token;
-//	result=strchr(token, ';');
-//	std::cout << result-token+1;
 	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
 //		std::cout << "Found " << coll << "starting at " << result << std::endl;
 		strncpy(result, "\0", 2);
@@ -148,6 +145,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		if(exec(j) == 1)
 		{
 			connector2 = 0;
+			
 		}
 		j = NULL;
 		i = 0;
@@ -165,6 +163,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		i = 0;
 		return;
 	}
+
 	else{											//If token is not connector it will get put in j(argv)
 		if(connector2 == 2)
 		{
@@ -178,6 +177,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		int z = i-1;
 		j[z] = token;
 	}
+
 	if(connector2 == 1)									//If ; connector was found, everything before is executed
 	{
 		exec(j);
@@ -204,7 +204,10 @@ void parsing(char *inpt)									//parses by using spaces
 	{
 		return;
 	}
-	exec(args);
+	if(exec(args) == 1)
+	{
+		exit(0);
+	}
 	return;
 }
 
@@ -237,8 +240,7 @@ int main(int argc, char **argv)
 		std::getline(std::cin,usrin);							//convert to cstring for parsing
 		if(usrin == "exit")
 		{
-			exec(0);	
-			return 0;
+			exit(0);	
 		}
 		char *cstr = new char [usrin.length()+1];
 		std::strcpy (cstr, usrin.c_str());

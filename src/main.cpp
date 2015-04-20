@@ -194,13 +194,13 @@ void parsing(char *inpt)									//parses by using spaces
 	int cap = 0;
 	int connector = 0;
 	char **args; 
-        char *comm_1 = strtok(inpt, " ");
-        while(comm_1 != NULL)
-        {
+	char *comm_1 = strtok(inpt, " ");
+	while(comm_1 != NULL)
+	{
 		findconnectors(comm_1,numarg, args, cap, connector);
 		comm_1 = strtok(NULL, " ");
-        }
-	if(connector == 2)		   							//If || dont execute right side
+	}
+	if(connector == 2)									//If || dont execute right side
 	{
 		return;
 	}

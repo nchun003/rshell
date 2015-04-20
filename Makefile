@@ -1,8 +1,10 @@
 CC=g++
-all:
-	bin rshell ls cp
+CFLAGS=-g -Wall -Werror -ansi -pedantic --std=c++11
+
+all : rshell
 
 rshell:
-	$(CC) -Wall -Werror -ansi -pedantic -o rshell src/main.cpp -o bin/rshell
+	mkdir -p bin
+	$(CC) $(CFLAGS) src/main.cpp -o bin/rshell
 
 

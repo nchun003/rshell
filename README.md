@@ -5,7 +5,9 @@ rshell is a basic command shell with the ability to print a command prompt as we
 
 ### Bugs
 
-Exit does not always properly execute the first time it is entered.
+* Exit does not properly execute when there was an error before it being called.
+* Must be space between || and && connectors in order for commands to execute correctly.
+
 
 
 

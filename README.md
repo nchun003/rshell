@@ -8,7 +8,7 @@ A basic unix command shell with the ability to print a command prompt as well as
 * Exit does not properly execute when there was an error before it being called.
 * Must be space between || and && connectors in order for commands to execute correctly.
 
-## Installation
+### Installation
 
 In order to install this project(from the hammer server):
 ```

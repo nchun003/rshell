@@ -1,0 +1,187 @@
+Script started on Sun 19 Apr 2015 08:50:12 PM PDT
+~
+nchun003@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd Documents
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents[0;95m [0;36m$[0m cd rshell
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m make
+mkdir -p bin
+g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/main.cpp -o bin/rshell
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m bin/rshell
+nchun003@hammer.cs.ucr.edu$ exit
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m bin/rshell
+nchun003@hammer.cs.ucr.edu$ exit echo hello rshell!
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m bin/rshell
+nchun003@hammer.cs.ucr.edu$ ls    echo testing rshell && exit
+testing rshell
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m bin/rshell[6Pmakecd rshellDocuments[8Pexitcd Documents[3Prshell[5Pmakebin/rshell
+nchun003@hammer.cs.ucr.edu$ ls
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ echo
+
+nchun003@hammer.cs.ucr.edu$ pwd
+/home/csmajs/nchun003/Documents/rshell
+nchun003@hammer.cs.ucr.edu$ ls -a
+.  ..  a.out  bin  .git  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ echo hello again!
+hello again!
+nchun003@hammer.cs.ucr.edu$ ls
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ ls -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a
+.  ..  a.out  bin  .git  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ ls -a -s -a -s -a -s -a -s -a -s
+total 52
+ 4 .    0 a.out   4 .git      4 Makefile    4 src	  4 tests
+ 4 ..   4 bin	 20 LICENSE   4 README.md   0 test_file
+nchun003@hammer.cs.ucr.edu$ echo TESTING RSHELL              testing rshell this should all echo echo echo echo echo echo
+testing rshell this should all echo echo echo echo echo echo
+nchun003@hammer.cs.ucr.edu$ ls                              -a       
+.  ..  a.out  bin  .git  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ echo            hello  ;;  ls
+hello
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ ^[[A    ls || echo hello     rshell is fu  cool
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ ls && echo rshell is fun
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+rshell is fun
+nchun003@hammer.cs.ucr.edu$ ;s      ls -a; ech          echo rshell      testing; ls -a
+testing
+.  ..  a.out  bin  .git  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ pwd ; ls - a  a; echo hell    rshell && touch     ls || echo rshell 2 || | ls || ls
+/home/csmajs/nchun003/Documents/rshell
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+execvp: No such file or directory
+rshell
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ ls || echo hi ||     ts esting || e ls || echo ls  onl  ly    l nly ls || echo should execute
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  tests
+nchun003@hammer.cs.ucr.edu$ touch testing && git status             ; git stats us
+usage: git [--version] [--help] [-c name=value]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p|--paginate|--no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           <command> [<args>]
+
+The most commonly used git commands are:
+   add        Add file contents to the index
+   bisect     Find by binary search the change that introduced a bug
+   branch     List, create, or delete branches
+   checkout   Checkout a branch or paths to the working tree
+   clone      Clone a repository into a new directory
+   commit     Record changes to the repository
+   diff       Show changes between commits, commit and working tree, etc
+   fetch      Download objects and refs from another repository
+   grep       Print lines matching a pattern
+   init       Create an empty Git repository or reinitialize an existing one
+   log        Show commit logs
+   merge      Join two or more development histories together
+   mv         Move or rename a file, a directory, or a symlink
+   pull       Fetch from and integrate with another repository or a local branch
+   push       Update remote refs along with associated objects
+   rebase     Forward-port local commits to the updated upstream head
+   reset      Reset current HEAD to the specified state
+   rm         Remove files from the working tree and from the index
+   show       Show various types of objects
+   status     Show the working tree status
+   tag        Create, list, delete or verify a tag object signed with GPG
+
+'git help -a' and 'git help -g' lists available subcommands and some
+concept guides. See 'git help <command>' or 'git help <concept>'
+to read about a specific subcommand or concept.
+status: missing job name
+Try `status --help' for more information.
+nchun003@hammer.cs.ucr.edu$ git status
+# On branch exec
+# Your branch is ahead of 'origin/exec' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	[31mmodified:   README.md[m
+#	[31mmodified:   src/main.cpp[m
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	[31ma.out[m
+#	[31mbin/[m
+#	[31msrc/a.out[m
+#	[31mtest_file[m
+#	[31mtesting[m
+#	[31mtests/[m
+no changes added to commit (use "git add" and/or "git commit -a")
+nchun003@hammer.cs.ucr.edu$ # ls - l l   ; ls
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+nchun003@hammer.cs.ucr.edu$ ls; ls  echo hello
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+hello
+nchun003@hammer.cs.ucr.edu$ ls;                e c echo ts ets   st  est && ls;
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+test
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+nchun003@hammer.cs.ucr.edu$ echo hi  testing almost done && giberish
+testing almost done
+execvp: No such file or directory
+nchun003@hammer.cs.ucr.edu$ exit
+rshell
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+nchun003@hammer.cs.ucr.edu$ exit
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m bin/rshell
+nchun003@hammer.cs.ucr.edu$ #comments now
+nchun003@hammer.cs.ucr.edu$ #
+nchun003@hammer.cs.ucr.edu$ # ls   #ls o wont ex    't execute
+nchun003@hammer.cs.ucr.edu$ ls #now    now ls executes
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+nchun003@hammer.cs.ucr.edu$ echo this is nota    a comment #      but this is
+this is not a comment
+nchun003@hammer.cs.ucr.edu$ ###
+nchun003@hammer.cs.ucr.edu$ exit
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m bin/rshell
+nchun003@hammer.cs.ucr.edu$ h giberishhh   # error sha ould appear
+execvp: No such file or directory
+nchun003@hammer.cs.ucr.edu$ exit
+nchun003@hammer.cs.ucr.edu$ exit
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m bin/rshell
+nchun003@hammer.cs.ucr.edu$ ^[[A    bin  /rshe        ls
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+nchun003@hammer.cs.ucr.edu$ make
+mkdir -p bin
+g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/main.cpp -o bin/rshell
+nchun003@hammer.cs.ucr.edu$ bin/rshell
+nchun003@hammer.cs.ucr.edu$ ls  ls #    # rshe     r  rshell in rshell!
+nchun003@hammer.cs.ucr.edu$ ls
+a.out  bin  LICENSE  Makefile  README.md  src  test_file  testing  tests
+nchun003@hammer.cs.ucr.edu$ ls -a  echo no  ?
+ls: cannot access echo: No such file or directory
+ls: cannot access ?: No such file or directory
+nchun003@hammer.cs.ucr.edu$ exit
+nchun003@hammer.cs.ucr.edu$ exit
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (exec) [0;36m$[0m exit
+exit
+~
+nchun003@hammer $ exit
+exit
+
+Script done on Sun 19 Apr 2015 09:10:13 PM PDT

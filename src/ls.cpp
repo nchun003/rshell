@@ -9,39 +9,41 @@
 #include <fcntl.h>
 #include <cstring>
 #include <string>
+#include <string.h>
+#include <vector>
 
-void parsing(int argc, char** argv, int &f)
+int flag = 0;
+
+void recursive()
 {
-	std::string a = "-a";
-	char *cstra = new char [a.length()+1];
-	strcpy(cstra, a.c_str());
-	std::string l = "-l";
-	char *cstrl = new char [l.length()+1];
-	strcpy(cstrl, l.c_str());
-	std::string R = "-R";
-	char *cstrR = new char [R.length()+1];
-	strcpy(cstrR, R.c_str());
-	if(*argv[1].at(1) == *cstra)
-	{
-		f = 1;
-		std::cout << "-a called";
-	}
-	else if(*argv[1] == *cstrl)
-	{
-		f = 2;
-		std::cout << "-l called";
-	}
-	else if(*argv[1] == *cstrR)
-	{
-		f = 3;
-		std::cout << "-R called";
-	}
-	return;
 }
 
-void opendirectory(int argc, char** argv)
+void all()
 {
-	DIR *dp = opendir(argv[1]);
+}
+
+void longlist()
+{
+}
+
+void get_files(int argc, char** argv, struct dirent *fs, std::vector<std::string> &files)
+{
+	if(fs->d_name[0] != '.')
+	{
+		files.push_back(fs->d_name);				//will push back non-hidden files
+	}
+}
+
+void opendirectory(int argc, char** argv, std::vector<std::string> &files)
+{
+	DIR *dp;
+	if(argv[1] == NULL || flag ==1 )
+	{
+		dp = opendir(".");
+	}
+	else{
+		dp = opendir(argv[1]);
+	}
 	if(NULL == dp)
 	{
 		perror("There was an error with opendir(). ");
@@ -52,6 +54,10 @@ void opendirectory(int argc, char** argv)
 	errno = 0;
 	while(NULL != (filespecs = readdir(dp)))
 	{
+		if(flag == 0)// || flag == 1)
+		{
+			get_files(argc, argv, filespecs, files);
+		}
 		std::cout << filespecs->d_name << " ";
 	}
 	if(errno != 0)
@@ -67,13 +73,46 @@ void opendirectory(int argc, char** argv)
 	}
 	return;
 }
+
+void parsing(int argc, char** argv, std::vector<std::string> files)
+{
+	std::string a = "-a";
+	std::string l = "-l";
+	std::string R = "-R";
+	std::string av = argv[1];
+	if(av == a)
+	{
+		flag = 1;
+		opendirectory(argc, argv, files);
+	}
+	else if(av == l)
+	{
+		flag = 2;
+		std::cout << "-l called";
+	}
+	else if(av == R)
+	{
+		flag = 3;
+		std::cout << "-R called";
+	}
+	else{
+	}
+	return;
+}
+
+
 	
 
 int main(int argc, char** argv)
 {
-	int flag = 0;			//1 = -a, 2 = -l, 3 = -R
-	parsing(argc, argv, flag);
-	opendirectory(argc, argv);
+	std::vector<std::string> params;
+	if(argv[1] == NULL)
+	{
+		opendirectory(argc,argv,params);
+		return 0;
+	}
+	parsing(argc, argv, params);
+//	opendirectory(argc, argv);
 		
 	return 0;
 }

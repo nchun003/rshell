@@ -11,6 +11,8 @@
 #include <string>
 #include <string.h>
 #include <vector>
+#include <algorithm>
+#include <ctype.h>
 
 int flag = 0;
 
@@ -26,15 +28,60 @@ void longlist()
 {
 }
 
-void get_files(int argc, char** argv, struct dirent *fs, std::vector<std::string> &files)
+bool compare(std::string i, std::string j)
 {
-	if(fs->d_name[0] != '.')
+	std::string temp;
+	std::string temp2;
+	unsigned n = 0;
+	if(i[0] == '.')
 	{
-		files.push_back(fs->d_name);				//will push back non-hidden files
+		n = 1;
 	}
+	for(unsigned x = n; x<i.size(); x++)
+	{		
+		char s =  tolower(i[x]);
+		std::string s2;
+		temp += s;
+	}
+	if(j[0] == '.')
+	{
+		n = 1;
+	}
+	else{
+		n = 0;
+	}
+	for(unsigned y=n; y<j.size(); y++)
+	{
+		char s = tolower(j[y]);
+		std::string s2;
+		temp2 += s;
+	}
+	return	(temp < temp2);
 }
 
-void opendirectory(int argc, char** argv, std::vector<std::string> &files)
+void order(std::vector<std::string> &f3)
+{
+	std::sort(f3.begin(), f3.end(), compare);
+	for(unsigned i=0; i<f3.size(); i++)
+	{
+		std::cout << f3[i] << "  ";
+	}	
+}
+
+void get_files(struct dirent *fs, std::vector<std::string> &f2)
+{
+	if(flag == 1)
+	{
+		f2.push_back(fs->d_name);
+	}
+	else if(fs->d_name[0] != '.')
+	{
+		f2.push_back(fs->d_name);				//will push back non-hidden files
+	}
+	return;
+}
+
+void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 {
 	DIR *dp;
 	if(argv[1] == NULL || flag ==1 )
@@ -54,12 +101,14 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &files)
 	errno = 0;
 	while(NULL != (filespecs = readdir(dp)))
 	{
-		if(flag == 0)// || flag == 1)
+		if(flag == 0 || flag == 1)// || flag == 1)
 		{
-			get_files(argc, argv, filespecs, files);
+			get_files(filespecs, f1);
 		}
-		std::cout << filespecs->d_name << " ";
+//		std::cout << filespecs->d_name << " ";
 	}
+	order(f1);
+//	std::cout << f1[0];
 	if(errno != 0)
 	{
 		perror("THere was an error with readdir(). ");
@@ -74,7 +123,7 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &files)
 	return;
 }
 
-void parsing(int argc, char** argv, std::vector<std::string> files)
+void parsing(int argc, char** argv, std::vector<std::string> &files)
 {
 	std::string a = "-a";
 	std::string l = "-l";
@@ -96,6 +145,7 @@ void parsing(int argc, char** argv, std::vector<std::string> files)
 		std::cout << "-R called";
 	}
 	else{
+		opendirectory(argc, argv, files);
 	}
 	return;
 }
@@ -108,7 +158,7 @@ int main(int argc, char** argv)
 	std::vector<std::string> params;
 	if(argv[1] == NULL)
 	{
-		opendirectory(argc,argv,params);
+		opendirectory(argc,argv, params);
 		return 0;
 	}
 	parsing(argc, argv, params);

@@ -28,8 +28,9 @@ void all()
 {
 }
 
-void longlist(const char* path, unsigned &fs)
+void longlist(const char* path, unsigned &fs, unsigned bt)
 {
+	std::cout << std::endl;	
 	struct stat buf;
 	stat (path, &buf);
 	if(-1 == stat(path, &buf))
@@ -37,6 +38,8 @@ void longlist(const char* path, unsigned &fs)
 		perror("Stat Error");
 		exit(0);
 	}
+
+
 	buf.st_mode & S_IFDIR? std::cout << "d":std::cout << "-";
 	buf.st_mode & S_IRUSR? std::cout << "r":std::cout << "-";
 	buf.st_mode & S_IWUSR? std::cout << "w":std::cout << "-";
@@ -69,13 +72,13 @@ void longlist(const char* path, unsigned &fs)
 	}
 	std::cout.width(fs); std::cout << std::right << buf.st_size;
 
-//	char timebuff[14];
-//	char* dattime = timebuff;
-//	struct tm *mytm = localtime(&buf.st_mtime);
-//	strftime(dattime, 14, "%m %d %H:%M", mytm);
-//	std::cout.width(14); std::cout << std::right  <<  dattime;
+	char timebuff[13];
+	char* dattime = timebuff;
+	struct tm *mytm = localtime(&buf.st_mtime);
+	strftime(dattime, 13, "%h %e %H:%M", mytm);
+	std::cout.width(13); std::cout << std::right  <<  dattime << " ";
 
-	std::cout << std::endl;
+	std::cout << path;
 }
 
 bool compare(std::string i, std::string j)
@@ -112,6 +115,7 @@ bool compare(std::string i, std::string j)
 void order(std::vector<std::string> &f3)
 {
 	const char* temp;
+	unsigned blktotal = 0;
 	unsigned filesize = 0;
 //	std::string temps; 
 	std::sort(f3.begin(), f3.end(), compare);
@@ -122,7 +126,7 @@ void order(std::vector<std::string> &f3)
 			std::cout << f3[i] << "  ";
 		}
 	}
-	else if(flag == 2)
+	else if(flag == 2)// || flag == 4)
 	{
 		for(unsigned j=0; j<f3.size(); j++)
 		{
@@ -141,7 +145,9 @@ void order(std::vector<std::string> &f3)
 			{
 				filesize = s.size()+2;
 			}
+			blktotal += buf.st_blocks;
 		}
+		std::cout << "total " << blktotal/2;
 		for(unsigned i=0; i<f3.size(); i++)
 		{
 //			temps = "./" +  f3[i];
@@ -151,7 +157,7 @@ void order(std::vector<std::string> &f3)
 //			temp = temps;
 //			char* ptr = temp;
 		//	std::cout << temp << std::endl;
-						longlist(temp,filesize);
+			longlist(temp,filesize,blktotal);
 //			struct stat buf;
 //			stat (temp, &buf);
 		//	mode_t t;
@@ -183,7 +189,7 @@ void order(std::vector<std::string> &f3)
 
 void get_files(struct dirent *fs, std::vector<std::string> &f2)
 {
-	if(flag == 1)
+	if(flag == 1)// || flag == 4)
 	{
 		f2.push_back(fs->d_name);
 	}
@@ -197,7 +203,7 @@ void get_files(struct dirent *fs, std::vector<std::string> &f2)
 void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 {
 	DIR *dp;
-	if(argv[1] == NULL || flag ==1 || flag ==2)
+	if(argv[1] == NULL || flag ==1 || flag ==2)// || flag ==4)
 	{
 		dp = opendir(".");
 	}
@@ -243,7 +249,8 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 	std::string l = "-l";
 	std::string R = "-R";
 	std::string av = argv[1];
-	if(av == a)
+//	std::string av2 = argv[2];
+	if(av == a)// && av2 != l)
 	{
 		flag = 1;
 		opendirectory(argc, argv, files);
@@ -259,6 +266,12 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 		flag = 3;
 		std::cout << "-R called";
 	}
+//	else if(av == a && av2 == l)
+//	{
+//		std::cout << "hi";
+//		flag = 4;
+//		opendirectory(argc, argv, files);
+//	}
 	else{
 		opendirectory(argc, argv, files);
 	}

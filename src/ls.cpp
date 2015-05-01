@@ -13,6 +13,10 @@
 #include <vector>
 #include <algorithm>
 #include <ctype.h>
+#include <pwd.h>
+#include <grp.h>
+#include <iomanip>
+#include <sstream>
 
 int flag = 0;
 
@@ -24,8 +28,54 @@ void all()
 {
 }
 
-void longlist()
+void longlist(const char* path, unsigned &fs)
 {
+	struct stat buf;
+	stat (path, &buf);
+	if(-1 == stat(path, &buf))
+	{
+		perror("Stat Error");
+		exit(0);
+	}
+	buf.st_mode & S_IFDIR? std::cout << "d":std::cout << "-";
+	buf.st_mode & S_IRUSR? std::cout << "r":std::cout << "-";
+	buf.st_mode & S_IWUSR? std::cout << "w":std::cout << "-";
+	buf.st_mode & S_IXUSR? std::cout << "x":std::cout << "-";
+	buf.st_mode & S_IRGRP? std::cout << "r":std::cout << "-";
+	buf.st_mode & S_IWGRP? std::cout << "w":std::cout << "-";
+	buf.st_mode & S_IXGRP? std::cout << "x":std::cout << "-";
+	buf.st_mode & S_IROTH? std::cout << "r":std::cout << "-";
+	buf.st_mode & S_IWOTH? std::cout << "w":std::cout << "-";
+	buf.st_mode & S_IXOTH? std::cout << "x":std::cout << "-";
+
+	std::cout << " " << buf.st_nlink;
+	
+	struct passwd *pw = getpwuid(buf.st_uid);
+	if(pw == NULL)
+	{
+		perror("Getpwuid Error");
+	}
+	else{
+		std::cout << " " << pw->pw_name;
+	}
+
+	struct group *gr = getgrgid(buf.st_gid);
+	if(gr == NULL)
+	{
+		perror("Getgrgid Error");
+	}
+	else{
+		std::cout << " " << gr->gr_name;
+	}
+	std::cout.width(fs); std::cout << std::right << buf.st_size;
+
+//	char timebuff[14];
+//	char* dattime = timebuff;
+//	struct tm *mytm = localtime(&buf.st_mtime);
+//	strftime(dattime, 14, "%m %d %H:%M", mytm);
+//	std::cout.width(14); std::cout << std::right  <<  dattime;
+
+	std::cout << std::endl;
 }
 
 bool compare(std::string i, std::string j)
@@ -61,11 +111,74 @@ bool compare(std::string i, std::string j)
 
 void order(std::vector<std::string> &f3)
 {
+	const char* temp;
+	unsigned filesize = 0;
+//	std::string temps; 
 	std::sort(f3.begin(), f3.end(), compare);
-	for(unsigned i=0; i<f3.size(); i++)
+	if(flag == 0 || flag == 1)
+	{	
+		for(unsigned i=0; i<f3.size(); i++)
+		{
+			std::cout << f3[i] << "  ";
+		}
+	}
+	else if(flag == 2)
 	{
-		std::cout << f3[i] << "  ";
-	}	
+		for(unsigned j=0; j<f3.size(); j++)
+		{
+			struct stat buf;
+			stat (f3[j].c_str(), &buf);
+			if(-1 == stat(f3[j].c_str(), &buf))
+			{
+				perror("Stat Error");
+				exit(0);
+			}
+			std::ostringstream ss;
+			ss << buf.st_size;
+			std::string s = ss.str();
+			//std::string s = buf.st_size;
+			if(s.size() > filesize)
+			{
+				filesize = s.size()+2;
+			}
+		}
+		for(unsigned i=0; i<f3.size(); i++)
+		{
+//			temps = "./" +  f3[i];
+//			temp = temps.c_str(); 
+			temp = f3[i].c_str();
+//		//	temp = temps;
+//			temp = temps;
+//			char* ptr = temp;
+		//	std::cout << temp << std::endl;
+						longlist(temp,filesize);
+//			struct stat buf;
+//			stat (temp, &buf);
+		//	mode_t t;
+			//	int result = fstat(path, &buf);
+			//	if(!result)
+			//	{
+			//		exit(-1);
+			//	}
+//			if(-1 == stat(temp, &buf))
+//			{
+//				perror("Stat Error");
+//				exit(0);
+//			}
+		//	mode_t p = buf.st_mode;
+//			if(buf.st_mode & S_IFDIR)
+//			{
+//				std::cout << "d" << std::flush;
+//			}
+//			else{
+//				std::cout << "-" << std::flush;
+//			}
+
+		}
+		
+//		longlist(temp);
+	}
+	return;			
 }
 
 void get_files(struct dirent *fs, std::vector<std::string> &f2)
@@ -84,7 +197,7 @@ void get_files(struct dirent *fs, std::vector<std::string> &f2)
 void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 {
 	DIR *dp;
-	if(argv[1] == NULL || flag ==1 )
+	if(argv[1] == NULL || flag ==1 || flag ==2)
 	{
 		dp = opendir(".");
 	}
@@ -101,25 +214,26 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 	errno = 0;
 	while(NULL != (filespecs = readdir(dp)))
 	{
-		if(flag == 0 || flag == 1)// || flag == 1)
+		if(flag == 0 || flag == 1 || flag ==2 )// || flag == 1)
 		{
 			get_files(filespecs, f1);
 		}
 //		std::cout << filespecs->d_name << " ";
 	}
-	order(f1);
-//	std::cout << f1[0];
+//	order(f1);
 	if(errno != 0)
 	{
 		perror("THere was an error with readdir(). ");
 		exit(1);
 	}
-	std::cout << std::endl;
+//	std::cout << std::endl;
 	if(-1 == closedir(dp))
 	{
 		perror("There was an error with closedir(). ");
 		exit(1);
 	}
+	order(f1);
+	std::cout << std::endl;
 	return;
 }
 
@@ -137,7 +251,8 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 	else if(av == l)
 	{
 		flag = 2;
-		std::cout << "-l called";
+		opendirectory(argc, argv, files);
+	//	longlist(argv[1]);
 	}
 	else if(av == R)
 	{

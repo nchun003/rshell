@@ -119,11 +119,15 @@ void order(std::vector<std::string> &f3)
 	unsigned filesize = 0;
 //	std::string temps; 
 	std::sort(f3.begin(), f3.end(), compare);
-	if(flag == 0 || flag == 1)
+	if(flag == 0 || flag == 1 || flag == 3)
 	{	
 		for(unsigned i=0; i<f3.size(); i++)
 		{
 			std::cout << f3[i] << "  ";
+		}
+		if(flag == 3)
+		{
+			std::cout << std::endl;
 		}
 	}
 	else if(flag == 2)// || flag == 4)
@@ -203,7 +207,7 @@ void get_files(struct dirent *fs, std::vector<std::string> &f2)
 void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 {
 	DIR *dp;
-	if(argv[1] == NULL || flag ==1 || flag ==2)// || flag ==4)
+	if(argv[1] == NULL || flag ==1 || flag ==2 || flag ==3)// || flag ==4)
 	{
 		dp = opendir(".");
 	}
@@ -220,7 +224,7 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 	errno = 0;
 	while(NULL != (filespecs = readdir(dp)))
 	{
-		if(flag == 0 || flag == 1 || flag ==2 )// || flag == 1)
+		if(flag == 0 || flag == 1 || flag ==2 || flag == 3)// || flag == 1)
 		{
 			get_files(filespecs, f1);
 		}
@@ -243,6 +247,54 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 	return;
 }
 
+
+void opendirectoryR(std::string ss)
+{
+//	for(unsigned j=0; j<v.size(); j++)
+//	{
+//		struct stat buf;
+//		stat (v[j].c_str(), &buf);
+//		if(-1 == stat(v[j].c_str(), &buf))
+//		{
+//			perror("Stat Error");
+//			exit(0);
+//		}
+//		if(buf.st_mode & S_IFDIR) 
+//		{
+//			std::cout << "./" << v[j] << ": " << std::endl;
+//			opendirectoryR(v[j]);
+//		//	opendirectory(files[j].size, files[j], files);	
+//		}		
+//	}
+	std::vector<std::string> f1;
+	DIR *dp;
+	const char* s = ss.c_str();
+	dp = opendir(s);
+	if(NULL == dp)
+	{
+		perror("There was an error with opendir(). ");
+		exit(1);
+	}
+	struct dirent *filespecs;
+	errno = 0;
+	while(NULL != (filespecs = readdir(dp)))
+	{
+			get_files(filespecs, f1);
+	}
+	if(errno != 0)
+	{
+		perror("THere was an error with readdir(). ");
+		exit(1);
+	}
+	if(-1 == closedir(dp))
+	{
+		perror("There was an error with closedir(). ");
+		exit(1);
+	}
+	order(f1);
+}
+	
+
 void parsing(int argc, char** argv, std::vector<std::string> &files)
 {
 	std::string a = "-a";
@@ -264,7 +316,28 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 	else if(av == R)
 	{
 		flag = 3;
-		std::cout << "-R called";
+		std::cout << ".:"<< std::endl;
+		opendirectory(argc, argv, files);
+		for(unsigned j=0; j<files.size(); j++)
+		{
+			struct stat buf;
+			stat (files[j].c_str(), &buf);
+			if(-1 == stat(files[j].c_str(), &buf))
+			{
+				perror("Stat Error");
+				exit(0);
+			}
+			if(buf.st_mode & S_IFDIR) 
+			{
+				std::cout << std::endl;
+				std::cout << "./" << files[j] << ": " << std::endl;
+				opendirectoryR(files[j]);
+			//	opendirectory(files[j].size, files[j], files);	
+			}
+
+			
+		}
+		//checkrec(files);
 	}
 //	else if(av == a && av2 == l)
 //	{

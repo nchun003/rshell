@@ -19,14 +19,7 @@
 #include <sstream>
 
 int flag = 0;
-
-void recursive()
-{
-}
-
-void all()
-{
-}
+int direcsize = 0;
 
 void longlist(const char* path, unsigned &fs, unsigned bt)
 {
@@ -204,14 +197,18 @@ void get_files(struct dirent *fs, std::vector<std::string> &f2)
 	return;
 }
 
-void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
+void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vector<std::string> &d2)
 {
 	DIR *dp;
 	if(argv[1] == NULL || flag ==1 || flag ==2 || flag ==3)// || flag ==4)
 	{
+		d2.push_back(".");
+		direcsize++;
 		dp = opendir(".");
 	}
 	else{
+		d2.push_back(argv[1]);
+		direcsize++;
 		dp = opendir(argv[1]);
 	}
 	if(NULL == dp)
@@ -243,12 +240,15 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1)
 		exit(1);
 	}
 	order(f1);
-	std::cout << std::endl;
+	if(flag != 3)
+	{
+		std::cout << std::endl;
+	}
 	return;
 }
 
 
-void opendirectoryR(std::string ss)
+void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 {
 //	for(unsigned j=0; j<v.size(); j++)
 //	{
@@ -266,6 +266,8 @@ void opendirectoryR(std::string ss)
 //		//	opendirectory(files[j].size, files[j], files);	
 //		}		
 //	}
+	d4.push_back(ss);
+	direcsize++;
 	std::vector<std::string> f1;
 	DIR *dp;
 	const char* s = ss.c_str();
@@ -292,10 +294,30 @@ void opendirectoryR(std::string ss)
 		exit(1);
 	}
 	order(f1);
+	for(unsigned j=0; j<f1.size(); j++)
+	{
+		std::string path  = d4[direcsize-1] + "/" + f1[j];
+		struct stat buf;
+		stat (path.c_str(), &buf);
+		if(-1 == stat(path.c_str(), &buf))
+		{
+			perror("Stat Error");
+			exit(0);
+		}
+		if(buf.st_mode & S_IFDIR) 
+		{
+			std::cout << std::endl;
+			std::cout << d4[direcsize-1] << "/" << f1[j] << ": " << std::endl;
+			opendirectoryR(path, d4);
+		//	opendirectory(files[j].size, files[j], files);	
+		}
+		
+	}
+
 }
 	
 
-void parsing(int argc, char** argv, std::vector<std::string> &files)
+void parsing(int argc, char** argv, std::vector<std::string> &files, std::vector<std::string> &d)
 {
 	std::string a = "-a";
 	std::string l = "-l";
@@ -305,24 +327,25 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 	if(av == a)// && av2 != l)
 	{
 		flag = 1;
-		opendirectory(argc, argv, files);
+		opendirectory(argc, argv, files, d);
 	}
 	else if(av == l)
 	{
 		flag = 2;
-		opendirectory(argc, argv, files);
+		opendirectory(argc, argv, files, d);
 	//	longlist(argv[1]);
 	}
 	else if(av == R)
 	{
 		flag = 3;
 		std::cout << ".:"<< std::endl;
-		opendirectory(argc, argv, files);
+		opendirectory(argc, argv, files, d);
 		for(unsigned j=0; j<files.size(); j++)
 		{
+			std::string path = d[0] + "/" + files[j];
 			struct stat buf;
-			stat (files[j].c_str(), &buf);
-			if(-1 == stat(files[j].c_str(), &buf))
+			stat (path.c_str(), &buf);
+			if(-1 == stat(path.c_str(), &buf))
 			{
 				perror("Stat Error");
 				exit(0);
@@ -330,8 +353,8 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 			if(buf.st_mode & S_IFDIR) 
 			{
 				std::cout << std::endl;
-				std::cout << "./" << files[j] << ": " << std::endl;
-				opendirectoryR(files[j]);
+				std::cout << d[0] << "/" << files[j] << ": " << std::endl;
+				opendirectoryR(path, d);
 			//	opendirectory(files[j].size, files[j], files);	
 			}
 
@@ -346,7 +369,7 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 //		opendirectory(argc, argv, files);
 //	}
 	else{
-		opendirectory(argc, argv, files);
+		opendirectory(argc, argv, files, d);
 	}
 	return;
 }
@@ -357,12 +380,13 @@ void parsing(int argc, char** argv, std::vector<std::string> &files)
 int main(int argc, char** argv)
 {
 	std::vector<std::string> params;
+	std::vector<std::string> directory;
 	if(argv[1] == NULL)
 	{
-		opendirectory(argc,argv, params);
+		opendirectory(argc,argv, params, directory);
 		return 0;
 	}
-	parsing(argc, argv, params);
+	parsing(argc, argv, params, directory);
 //	opendirectory(argc, argv);
 		
 	return 0;

@@ -18,7 +18,6 @@
 #include <iomanip>
 #include <sstream>
 
-//int flag = 0;
 bool flag = true;
 bool flaga = false;
 bool flagl = false;
@@ -29,7 +28,7 @@ void longlist(const char* path, unsigned fs, unsigned bt)
 {
 	std::cout << std::endl;	
 	struct stat buf;
-	stat (path, &buf);
+//	stat (path, &buf);
 	if(-1 == stat(path, &buf))
 	{
 		perror("Stat Error");
@@ -74,7 +73,6 @@ void longlist(const char* path, unsigned fs, unsigned bt)
 	struct tm *mytm = localtime(&buf.st_mtime);
 	strftime(dattime, 13, "%h %e %H:%M", mytm);
 	std::cout.width(13); std::cout << std::right  <<  dattime << " ";
-
 	std::cout << path;
 }
 
@@ -165,7 +163,7 @@ void order(std::vector<std::string> &f3, std::vector<std::string> d5)
 		for(unsigned j=0; j<f3.size(); j++)
 		{
 			struct stat buf;
-			stat (f3[j].c_str(), &buf);
+	//		stat (f3[j].c_str(), &buf);
 			if(-1 == stat(f3[j].c_str(), &buf))
 			{
 				perror("Stat Error");
@@ -346,7 +344,7 @@ void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 				for(unsigned j=0; j<f1.size(); j++)
 		{
 			struct stat buf;
-			stat ((d4[direcsize-1]+"/"+f1[j]).c_str(), &buf);
+	//		stat ((d4[direcsize-1]+"/"+f1[j]).c_str(), &buf);
 			if(-1 == stat((d4[direcsize-1]+"/"+f1[j]).c_str(), &buf))
 			{
 				perror("Stat Error");
@@ -364,10 +362,11 @@ void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 		}
 
 		std::cout << "total: " << blktotal2/2;
-		for(unsigned i=0; i<d4.size(); i++)
+		for(unsigned i=0; i<f1.size(); i++)
 		{
 			longlist((d4[direcsize-1]+"/" + f1[i]).c_str(), filesize2, blktotal2);
 		}
+		std::cout << std::endl;
 		return;
 	}
 
@@ -379,7 +378,7 @@ void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 	{
 		std::string path  = d4[direcsize-1] + "/" + f1[j];
 		struct stat buf;
-		stat (path.c_str(), &buf);
+	//	stat (path.c_str(), &buf);
 		if(-1 == stat(path.c_str(), &buf))
 		{
 			perror("Stat Error");
@@ -448,7 +447,7 @@ void parsing(int argc, char** argv, std::vector<std::string> &files, std::vector
 		{
 			std::string path = d[0] + "/" + files[j];
 			struct stat buf;
-			stat (path.c_str(), &buf);
+	//		stat (path.c_str(), &buf);
 			if(-1 == stat(path.c_str(), &buf))
 			{
 				perror("Stat Error");

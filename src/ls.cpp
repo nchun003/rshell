@@ -25,7 +25,7 @@ bool flagl = false;
 bool flagr = false;
 int direcsize = 0;
 
-void longlist(const char* path, unsigned &fs, unsigned bt)
+void longlist(const char* path, unsigned fs, unsigned bt)
 {
 	std::cout << std::endl;	
 	struct stat buf;
@@ -109,14 +109,45 @@ bool compare(std::string i, std::string j)
 	return	(temp < temp2);
 }
 
-void order(std::vector<std::string> &f3)
+void order(std::vector<std::string> &f3, std::vector<std::string> d5)
 {
 	const char* temp;
 	unsigned blktotal = 0;
 	unsigned filesize = 0;
 //	std::string temps; 
 	std::sort(f3.begin(), f3.end(), compare);
-	if((flag && !flagl) || (flaga && !flagl) || flagr)
+
+//	if(flagr && flagl)
+//	{
+//		for(unsigned j=0; j<f3.size(); j++)
+//		{
+//			struct stat buf;
+//			stat (f3[j].c_str(), &buf);
+//			if(-1 == stat(f3[j].c_str(), &buf))
+//			{
+//				perror("Stat Error");
+//				exit(0);
+//			}
+//			std::ostringstream ss;
+//			ss << buf.st_size;
+//			std::string s = ss.str();
+//			//std::string s = buf.st_size;
+//			if(s.size() > filesize)
+//			{
+//				filesize = s.size()+2;
+//			}
+//			blktotal += buf.st_blocks;
+//		}
+//	
+//		std::cout << "total: " << blktotal/2;
+//		for(unsigned i=0; i<d5.size(); i++)
+//		{
+//			std::cout << "hello";
+//			longlist((d5[direcsize-1]+"/" + f3[i]).c_str(), blktotal, filesize);
+//		}
+//	}
+
+	if((flag && !flagl && !flagr) || (flaga && !flagl && !flagr) || (flagr))
 	{	
 		for(unsigned i=0; i<f3.size(); i++)
 		{
@@ -127,7 +158,9 @@ void order(std::vector<std::string> &f3)
 			std::cout << std::endl;
 		}
 	}
-	if(flagl)
+	
+
+	if(flagl)// && !flagr)
 	{
 		for(unsigned j=0; j<f3.size(); j++)
 		{
@@ -157,7 +190,7 @@ void order(std::vector<std::string> &f3)
 //		//	temp = temps;
 //			temp = temps;
 //			char* ptr = temp;
-		//	std::cout << temp << std::endl;
+//			std::cout <<"temp" << temp << std::endl;
 			longlist(temp,filesize,blktotal);
 //			struct stat buf;
 //			stat (temp, &buf);
@@ -243,7 +276,10 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vec
 		perror("There was an error with closedir(). ");
 		exit(1);
 	}
-	order(f1);
+//	if(!flagr && !flagl)
+//	{
+		order(f1, d2);
+//	}
 	if(!flagr)
 	{
 		std::cout << std::endl;
@@ -254,22 +290,25 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vec
 
 void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 {
-//	for(unsigned j=0; j<v.size(); j++)
-//	{
-//		struct stat buf;
-//		stat (v[j].c_str(), &buf);
-//		if(-1 == stat(v[j].c_str(), &buf))
-//		{
-//			perror("Stat Error");
-//			exit(0);
+//	if(flagl && flagr){
+//		for(unsigned j=0; j<d4.size(); j++)
+//		{	
+//			struct stat buf;
+//			stat (d4[j].c_str(), &buf);
+//			if(-1 == stat(d4[j].c_str(), &buf))
+//			{
+//				perror("Stat Error");
+//				exit(0);
+//			}
+//			if(buf.st_mode & S_IFDIR) 
+//			{
+//				std::cout << "./" << d4[j] << ": " << std::endl;
+//				opendirectoryR(v[j]);
+//			//	opendirectory(files[j].size, files[j], files);	
+//			}		
 //		}
-//		if(buf.st_mode & S_IFDIR) 
-//		{
-//			std::cout << "./" << v[j] << ": " << std::endl;
-//			opendirectoryR(v[j]);
-//		//	opendirectory(files[j].size, files[j], files);	
-//		}		
 //	}
+//	else{		
 	d4.push_back(ss);
 	direcsize++;
 	std::vector<std::string> f1;
@@ -297,7 +336,45 @@ void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 		perror("There was an error with closedir(). ");
 		exit(1);
 	}
-	order(f1);
+
+	unsigned blktotal2 = 0;
+	unsigned filesize2 = 0;
+
+	if(flagl && flagr)
+	{	
+		std::sort(f1.begin(), f1.end(), compare);
+				for(unsigned j=0; j<f1.size(); j++)
+		{
+			struct stat buf;
+			stat ((d4[direcsize-1]+"/"+f1[j]).c_str(), &buf);
+			if(-1 == stat((d4[direcsize-1]+"/"+f1[j]).c_str(), &buf))
+			{
+				perror("Stat Error");
+				exit(0);
+			}
+			std::ostringstream ss;
+			ss << buf.st_size;
+			std::string s = ss.str();
+			//std::string s = buf.st_size;
+			if(s.size() > filesize2)
+			{
+				filesize2 = s.size()+2;
+			}
+			blktotal2 += buf.st_blocks;
+		}
+
+		std::cout << "total: " << blktotal2/2;
+		for(unsigned i=0; i<d4.size(); i++)
+		{
+			longlist((d4[direcsize-1]+"/" + f1[i]).c_str(), filesize2, blktotal2);
+		}
+		return;
+	}
+
+	
+		
+	order(f1, d4);
+
 	for(unsigned j=0; j<f1.size(); j++)
 	{
 		std::string path  = d4[direcsize-1] + "/" + f1[j];
@@ -317,6 +394,7 @@ void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 		}
 		
 	}
+//	}
 
 }
 	
@@ -354,7 +432,7 @@ void parsing(int argc, char** argv, std::vector<std::string> &files, std::vector
 		opendirectory(argc, argv, files, d);
 		return;
 	}
-	if(flagl)//av == l || av2 == l)
+	if(flagl && !flagr)//av == l || av2 == l)
 	{
 //		flagl = true;
 		opendirectory(argc, argv, files, d);
@@ -379,7 +457,12 @@ void parsing(int argc, char** argv, std::vector<std::string> &files, std::vector
 			if(buf.st_mode & S_IFDIR) 
 			{
 				std::cout << std::endl;
+				if(flagl)
+				{
+					std::cout << std::endl;
+				}
 				std::cout << d[0] << "/" << files[j] << ": " << std::endl;
+//				std::cout << "path:" << path;
 				opendirectoryR(path, d);
 			//	opendirectory(files[j].size, files[j], files);	
 			}

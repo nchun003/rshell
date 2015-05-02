@@ -18,7 +18,11 @@
 #include <iomanip>
 #include <sstream>
 
-int flag = 0;
+//int flag = 0;
+bool flag = true;
+bool flaga = false;
+bool flagl = false;
+bool flagr = false;
 int direcsize = 0;
 
 void longlist(const char* path, unsigned &fs, unsigned bt)
@@ -112,18 +116,18 @@ void order(std::vector<std::string> &f3)
 	unsigned filesize = 0;
 //	std::string temps; 
 	std::sort(f3.begin(), f3.end(), compare);
-	if(flag == 0 || flag == 1 || flag == 3)
+	if((flag && !flagl) || (flaga && !flagl) || flagr)
 	{	
 		for(unsigned i=0; i<f3.size(); i++)
 		{
 			std::cout << f3[i] << "  ";
 		}
-		if(flag == 3)
+		if(flagr)
 		{
 			std::cout << std::endl;
 		}
 	}
-	else if(flag == 2)// || flag == 4)
+	if(flagl)
 	{
 		for(unsigned j=0; j<f3.size(); j++)
 		{
@@ -186,7 +190,7 @@ void order(std::vector<std::string> &f3)
 
 void get_files(struct dirent *fs, std::vector<std::string> &f2)
 {
-	if(flag == 1)// || flag == 4)
+	if(flaga)// || flag == 4)
 	{
 		f2.push_back(fs->d_name);
 	}
@@ -200,7 +204,7 @@ void get_files(struct dirent *fs, std::vector<std::string> &f2)
 void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vector<std::string> &d2)
 {
 	DIR *dp;
-	if(argv[1] == NULL || flag ==1 || flag ==2 || flag ==3)// || flag ==4)
+	if(argv[1] == NULL || flaga || flagl || flagr)// || flag ==4)
 	{
 		d2.push_back(".");
 		direcsize++;
@@ -221,7 +225,7 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vec
 	errno = 0;
 	while(NULL != (filespecs = readdir(dp)))
 	{
-		if(flag == 0 || flag == 1 || flag ==2 || flag == 3)// || flag == 1)
+		if(flag || flaga || flagl || flagr)// || flag == 1)
 		{
 			get_files(filespecs, f1);
 		}
@@ -240,7 +244,7 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vec
 		exit(1);
 	}
 	order(f1);
-	if(flag != 3)
+	if(!flagr)
 	{
 		std::cout << std::endl;
 	}
@@ -322,22 +326,44 @@ void parsing(int argc, char** argv, std::vector<std::string> &files, std::vector
 	std::string a = "-a";
 	std::string l = "-l";
 	std::string R = "-R";
-	std::string av = argv[1];
-//	std::string av2 = argv[2];
-	if(av == a)// && av2 != l)
+//	std::string av = argv[1];
+//	std::string av2;
+//	if(argv[2] != NULL)
+//	{
+//		av2 = argv[2];
+//	}
+	for(int i=1; i<argc; i++)
 	{
-		flag = 1;
-		opendirectory(argc, argv, files, d);
+		std::string av = argv[i];
+		if(av == a)
+		{
+			flaga = true;
+		}
+		if(av == l)
+		{
+			flagl = true;
+		}
+		if(av == R)
+		{
+			flagr = true;
+		}
 	}
-	else if(av == l)
+	if(flaga && !flagl && !flagr)// && av2 != l)
 	{
-		flag = 2;
+//		flaga = true;
 		opendirectory(argc, argv, files, d);
+		return;
+	}
+	if(flagl)//av == l || av2 == l)
+	{
+//		flagl = true;
+		opendirectory(argc, argv, files, d);
+		return;
 	//	longlist(argv[1]);
 	}
-	else if(av == R)
+	if(flagr)//av == R || av2 == R)
 	{
-		flag = 3;
+//		flagr = true;
 		std::cout << ".:"<< std::endl;
 		opendirectory(argc, argv, files, d);
 		for(unsigned j=0; j<files.size(); j++)

@@ -28,7 +28,6 @@ void longlist(const char* path, unsigned fs, unsigned bt)
 {
 	std::cout << std::endl;	
 	struct stat buf;
-//	stat (path, &buf);
 	if(-1 == stat(path, &buf))
 	{
 		perror("Stat Error");
@@ -112,39 +111,7 @@ void order(std::vector<std::string> &f3, std::vector<std::string> d5)
 	const char* temp;
 	unsigned blktotal = 0;
 	unsigned filesize = 0;
-//	std::string temps; 
 	std::sort(f3.begin(), f3.end(), compare);
-
-//	if(flagr && flagl)
-//	{
-//		for(unsigned j=0; j<f3.size(); j++)
-//		{
-//			struct stat buf;
-//			stat (f3[j].c_str(), &buf);
-//			if(-1 == stat(f3[j].c_str(), &buf))
-//			{
-//				perror("Stat Error");
-//				exit(0);
-//			}
-//			std::ostringstream ss;
-//			ss << buf.st_size;
-//			std::string s = ss.str();
-//			//std::string s = buf.st_size;
-//			if(s.size() > filesize)
-//			{
-//				filesize = s.size()+2;
-//			}
-//			blktotal += buf.st_blocks;
-//		}
-//	
-//		std::cout << "total: " << blktotal/2;
-//		for(unsigned i=0; i<d5.size(); i++)
-//		{
-//			std::cout << "hello";
-//			longlist((d5[direcsize-1]+"/" + f3[i]).c_str(), blktotal, filesize);
-//		}
-//	}
-
 	if((flag && !flagl && !flagr) || (flaga && !flagl && !flagr) || (flagr))
 	{	
 		for(unsigned i=0; i<f3.size(); i++)
@@ -163,7 +130,6 @@ void order(std::vector<std::string> &f3, std::vector<std::string> d5)
 		for(unsigned j=0; j<f3.size(); j++)
 		{
 			struct stat buf;
-	//		stat (f3[j].c_str(), &buf);
 			if(-1 == stat(f3[j].c_str(), &buf))
 			{
 				perror("Stat Error");
@@ -182,39 +148,10 @@ void order(std::vector<std::string> &f3, std::vector<std::string> d5)
 		std::cout << "total " << blktotal/2;
 		for(unsigned i=0; i<f3.size(); i++)
 		{
-//			temps = "./" +  f3[i];
-//			temp = temps.c_str(); 
 			temp = f3[i].c_str();
-//		//	temp = temps;
-//			temp = temps;
-//			char* ptr = temp;
-//			std::cout <<"temp" << temp << std::endl;
 			longlist(temp,filesize,blktotal);
-//			struct stat buf;
-//			stat (temp, &buf);
-		//	mode_t t;
-			//	int result = fstat(path, &buf);
-			//	if(!result)
-			//	{
-			//		exit(-1);
-			//	}
-//			if(-1 == stat(temp, &buf))
-//			{
-//				perror("Stat Error");
-//				exit(0);
-//			}
-		//	mode_t p = buf.st_mode;
-//			if(buf.st_mode & S_IFDIR)
-//			{
-//				std::cout << "d" << std::flush;
-//			}
-//			else{
-//				std::cout << "-" << std::flush;
-//			}
-
 		}
 		
-//		longlist(temp);
 	}
 	return;			
 }
@@ -262,7 +199,6 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vec
 		}
 //		std::cout << filespecs->d_name << " ";
 	}
-//	order(f1);
 	if(errno != 0)
 	{
 		perror("THere was an error with readdir(). ");
@@ -288,25 +224,6 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vec
 
 void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 {
-//	if(flagl && flagr){
-//		for(unsigned j=0; j<d4.size(); j++)
-//		{	
-//			struct stat buf;
-//			stat (d4[j].c_str(), &buf);
-//			if(-1 == stat(d4[j].c_str(), &buf))
-//			{
-//				perror("Stat Error");
-//				exit(0);
-//			}
-//			if(buf.st_mode & S_IFDIR) 
-//			{
-//				std::cout << "./" << d4[j] << ": " << std::endl;
-//				opendirectoryR(v[j]);
-//			//	opendirectory(files[j].size, files[j], files);	
-//			}		
-//		}
-//	}
-//	else{		
 	d4.push_back(ss);
 	direcsize++;
 	std::vector<std::string> f1;
@@ -401,16 +318,36 @@ void opendirectoryR(std::string ss, std::vector<std::string> &d4)
 void parsing(int argc, char** argv, std::vector<std::string> &files, std::vector<std::string> &d)
 {
 	std::string a = "-a";
+	std::string a2 = "a";
+	char *ay = new char [a2.length() +1];
+	strcpy(ay, a2.c_str());
 	std::string l = "-l";
+	std::string l2 = "l";
+	char *la = new char [l2.length() +1];
+	strcpy(la, l2.c_str());
 	std::string R = "-R";
-//	std::string av = argv[1];
-//	std::string av2;
-//	if(argv[2] != NULL)
-//	{
-//		av2 = argv[2];
-//	}
+	std::string R2 = "R";
+	char *Ra = new char [R2.length() +1];
+	strcpy(Ra, R2.c_str());
 	for(int i=1; i<argc; i++)
 	{
+		char *r = argv[i];
+		if((r=std::strstr(r, ay)) != NULL)
+		{
+			flaga = true;
+		}
+		r = argv[i];
+		if((r=std::strstr(r, la)) != NULL)
+		{
+			flagl = true;
+		}
+		r = argv[i];
+		if((r=std::strstr(r, Ra)) != NULL)
+		{
+			flagr = true;
+		}
+
+
 		std::string av = argv[i];
 		if(av == a)
 		{
@@ -470,12 +407,6 @@ void parsing(int argc, char** argv, std::vector<std::string> &files, std::vector
 		}
 		//checkrec(files);
 	}
-//	else if(av == a && av2 == l)
-//	{
-//		std::cout << "hi";
-//		flag = 4;
-//		opendirectory(argc, argv, files);
-//	}
 	else{
 		opendirectory(argc, argv, files, d);
 	}

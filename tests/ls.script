@@ -1,4 +1,4 @@
-Script started on Fri 01 May 2015 11:19:43 PM PDT
+Script started on Fri 01 May 2015 11:25:23 PM PDT
 ~
 nchun003@hammer $ cs100
 [0;91m
@@ -22,12 +22,10 @@ nchun003@hammer $ cs100
 ===============================================================================
 [0m
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd Documents
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents[0;95m [0;36m$[0m ls
-lab3  rshell  ucr-cs100
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents[0;95m [0;36m$[0m cd rshell
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls
 a.out  bin  LICENSE  Makefile  README.md  src  test_file  testfolder  testing  tests  
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m b[Kls
 a.out  bin  LICENSE  Makefile  README.md  src  test_file  testfolder  testing  tests
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls -a
 .  ..  a.out  bin  .git  LICENSE  Makefile  README.md  src  test_file  testfolder  testing  tests  
@@ -37,24 +35,6 @@ a.out  bin  LICENSE  Makefile  README.md  src  test_file  testfolder  testing  t
 total 44
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
 drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
-do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
--rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
--rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
--rw------- 1 nchun003 csmajs   496 Apr 19 22:54 README.md
-drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
--rw------- 1 nchun003 csmajs     0 Apr 19 20:35 test_file
-drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
-do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
-do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
-Getgrgid Error: Success
--rw------- 1 nchun003     0 Apr 19 20:52 testing
-drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls -l[K[K[K[K[Kbin/ls -l
-total 44
--rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
-drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
-do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
-do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
 -rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
 do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
 -rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
@@ -64,7 +44,7 @@ drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
 drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
 -rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
 drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls 0[K[K[K[K[K[K[K[Kls -l
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls -l
 total 44
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
 drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
@@ -117,22 +97,23 @@ drwx------ 7 nchun003 csmajs  4096 May  1 22:31 .
 drwx------ 5 nchun003 csmajs  4096 Apr 22 13:34 ..
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
 drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
-drwx------ 8 nchun003 csmajs  4096 May  1 23:13 .git
+drwx------ 8 nchun003 csmajs  4096 May  1 23:16 .git
 -rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
 -rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
 -rw------- 1 nchun003 csmajs   496 Apr 19 22:54 README.md
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
 drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
 -rw------- 1 nchun003 csmajs     0 Apr 19 20:35 test_file
 drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
 -rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
 drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m v[Kbin.ls [K[K[K[K.[K/ls -la
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls -a -l
 total 56
 drwx------ 7 nchun003 csmajs  4096 May  1 22:31 .
 drwx------ 5 nchun003 csmajs  4096 Apr 22 13:34 ..
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
 drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
-drwx------ 8 nchun003 csmajs  4096 May  1 23:13 .git
+drwx------ 8 nchun003 csmajs  4096 May  1 23:16 .git
 -rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
 -rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
 -rw------- 1 nchun003 csmajs   496 Apr 19 22:54 README.md
@@ -141,13 +122,29 @@ drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
 drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
 -rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
 drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls 0a -[K[K[K[K-a -l
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls -la
 total 56
 drwx------ 7 nchun003 csmajs  4096 May  1 22:31 .
 drwx------ 5 nchun003 csmajs  4096 Apr 22 13:34 ..
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
 drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
-drwx------ 8 nchun003 csmajs  4096 May  1 23:13 .git
+drwx------ 8 nchun003 csmajs  4096 May  1 23:16 .git
+-rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
+-rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rw------- 1 nchun003 csmajs   496 Apr 19 22:54 README.md
+drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
+-rw------- 1 nchun003 csmajs     0 Apr 19 20:35 test_file
+drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
+-rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
+drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m n[Kbin/ls -al
+total 56
+drwx------ 7 nchun003 csmajs  4096 May  1 22:31 .
+drwx------ 5 nchun003 csmajs  4096 Apr 22 13:34 ..
+-rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
+drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
+drwx------ 8 nchun003 csmajs  4096 May  1 23:16 .git
 -rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
 -rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
 -rw------- 1 nchun003 csmajs   496 Apr 19 22:54 README.md
@@ -156,7 +153,7 @@ drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
 drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
 -rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
 drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls -R -l[K[K[Kl[Kl
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls -l -R
 .:
 total 44
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
@@ -192,9 +189,10 @@ drwx------ 2 nchun003 csmajs  4096 May  1 22:31 ./testfolder/testfolder2
 total: 96
 -rw------- 1 nchun003 csmajs  10586 Apr 19 22:54 ./tests/exec.script
 -rw------- 1 nchun003 csmajs  78826 May  1 22:54 ./tests/ls.cpp
--rw------- 1 nchun003 csmajs      0 May  1 23:13 ./tests/ls.script
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls -l[Kr[KRl
+-rw------- 1 nchun003 csmajs      0 May  1 23:19 ./tests/ls.script
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls -l -R
 .:
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
 total 44
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
 drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
@@ -229,8 +227,8 @@ total 0
 total 96
 -rw------- 1 nchun003 csmajs 10586 Apr 19 22:54 exec.script
 -rw------- 1 nchun003 csmajs 78826 May  1 22:54 ls.cpp
--rw------- 1 nchun003 csmajs     0 May  1 23:13 ls.script
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls -l -R
+-rw------- 1 nchun003 csmajs     0 May  1 23:19 ls.script
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls -R -l
 .:
 total 44
 -rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
@@ -242,7 +240,6 @@ drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
 -rw------- 1 nchun003 csmajs     0 Apr 19 20:35 test_file
 drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
 -rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
-do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
 drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
 
 ./bin: 
@@ -267,19 +264,89 @@ drwx------ 2 nchun003 csmajs  4096 May  1 22:31 ./testfolder/testfolder2
 total: 96
 -rw------- 1 nchun003 csmajs  10586 Apr 19 22:54 ./tests/exec.script
 -rw------- 1 nchun003 csmajs  78826 May  1 22:54 ./tests/ls.cpp
--rw------- 1 nchun003 csmajs      0 May  1 23:13 ./tests/ls.script
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin.[K/ls ..
+-rw------- 1 nchun003 csmajs      0 May  1 23:19 ./tests/ls.script
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m l[Kbin/ls -lR
+.:
+total 44
+-rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
+drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
+-rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
+-rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
+-rw------- 1 nchun003 csmajs   496 Apr 19 22:54 README.md
+drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
+-rw------- 1 nchun003 csmajs     0 Apr 19 20:35 test_file
+drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
+-rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
+drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
+
+./bin: 
+total: 224
+-rwx------ 1 nchun003 csmajs  167298 May  1 23:12 ./bin/ls
+-rwx------ 1 nchun003 csmajs   54887 May  1 23:12 ./bin/rshell
+
+
+./src: 
+total: 28
+-rwx------ 1 nchun003 csmajs  6725 Apr 28 22:34 ./src/a.out
+-rw------- 1 nchun003 csmajs  8348 May  1 23:12 ./src/ls.cpp
+-rw------- 1 nchun003 csmajs  4274 Apr 19 22:54 ./src/main.cpp
+
+
+./testfolder: 
+total: 4
+drwx------ 2 nchun003 csmajs  4096 May  1 22:31 ./testfolder/testfolder2
+
+
+./tests: 
+total: 96
+-rw------- 1 nchun003 csmajs  10586 Apr 19 22:54 ./tests/exec.script
+-rw------- 1 nchun003 csmajs  78826 May  1 22:54 ./tests/ls.cpp
+-rw------- 1 nchun003 csmajs      0 May  1 23:19 ./tests/ls.script
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls -Rl
+.:
+total 44
+-rw------- 1 nchun003 csmajs     0 Apr 19 19:26 a.out
+drwx------ 2 nchun003 csmajs  4096 May  1 23:12 bin
+-rw------- 1 nchun003 csmajs 18047 Apr 11 12:55 LICENSE
+-rw------- 1 nchun003 csmajs   202 Apr 29 13:17 Makefile
+-rw------- 1 nchun003 csmajs   496 Apr 19 22:54 README.md
+drwx------ 2 nchun003 csmajs  4096 May  1 23:12 src
+-rw------- 1 nchun003 csmajs     0 Apr 19 20:35 test_file
+drwx------ 3 nchun003 csmajs  4096 May  1 22:31 testfolder
+-rw------- 1 nchun003 csmajs     0 Apr 19 20:52 testing
+drwx------ 2 nchun003 csmajs  4096 May  1 22:55 tests
+
+./bin: 
+total: 224
+-rwx------ 1 nchun003 csmajs  167298 May  1 23:12 ./bin/ls
+-rwx------ 1 nchun003 csmajs   54887 May  1 23:12 ./bin/rshell
+
+
+./src: 
+total: 28
+-rwx------ 1 nchun003 csmajs  6725 Apr 28 22:34 ./src/a.out
+-rw------- 1 nchun003 csmajs  8348 May  1 23:12 ./src/ls.cpp
+-rw------- 1 nchun003 csmajs  4274 Apr 19 22:54 ./src/main.cpp
+
+
+./testfolder: 
+total: 4
+drwx------ 2 nchun003 csmajs  4096 May  1 22:31 ./testfolder/testfolder2
+
+
+./tests: 
+total: 96
+-rw------- 1 nchun003 csmajs  10586 Apr 19 22:54 ./tests/exec.script
+-rw------- 1 nchun003 csmajs  78826 May  1 22:54 ./tests/ls.cpp
+-rw------- 1 nchun003 csmajs      0 May  1 23:19 ./tests/ls.script
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls ..
 lab3  rshell  ucr-cs100  
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls[K[K[K[K[K[Kls ..
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m ls ..
 lab3  rshell  ucr-cs100
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m exit[K[K[K[Kls
-a.out  bin  LICENSE  Makefile  README.md  src  test_file  testfolder  testing  tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m bin/ls
-a.out  bin  LICENSE  Makefile  README.md  src  test_file  testfolder  testing  tests  
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (ls) [0;36m$[0m exit
 exit
 ~
 nchun003@hammer $ exit
 exit
 
-Script done on Fri 01 May 2015 11:22:38 PM PDT
+Script done on Fri 01 May 2015 11:27:20 PM PDT

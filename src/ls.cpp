@@ -112,7 +112,7 @@ void order(std::vector<std::string> &f3, std::vector<std::string> d5)
 	unsigned blktotal = 0;
 	unsigned filesize = 0;
 	std::sort(f3.begin(), f3.end(), compare);
-	if((flag && !flagl && !flagr) || (flaga && !flagl && !flagr) || (flagr))
+	if((flag && !flagl && !flagr) || (flaga && !flagl && !flagr) || (flagr&&!flagl&&!flaga))
 	{	
 		for(unsigned i=0; i<f3.size(); i++)
 		{

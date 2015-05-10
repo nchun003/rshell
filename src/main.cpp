@@ -19,7 +19,6 @@ int exec(char **&argv)
 	}
 	else if(pid == 0)			//Child process
 	{
-//		std::cout << "Child Process";
 		if(execvp(argv[0], argv))
 		{
 			perror("execvp");
@@ -121,7 +120,6 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	}
 	char *result = token;
 	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
-//		std::cout << "Found " << coll << "starting at " << result << std::endl;
 		strncpy(result, "\0", 2);
 		if(connector2 == 2)
 		{

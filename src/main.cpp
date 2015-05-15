@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <vector>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -11,6 +13,8 @@
 #include <fstream>
 
 int errorcalled;
+//int out = 0;
+//int connector = 0;
 
 void exec(char **&argv)
 {
@@ -72,7 +76,7 @@ void expand(int &size2, int &cap2, char **&array)
 	}
 }
 
-void redirection(char **file)
+/*void redirection(char **file)
 {
 //	int savestdin = dup(0);
 //	if(-1 == savestdin){
@@ -93,20 +97,21 @@ void redirection(char **file)
 
 	//char *grep[] = {infile};
 
-	/*int in =*/ open("bla", O_RDONLY);
+	int in = open("bla", O_RDONLY);
 	//dup2(in, 0);
 	//close(in);
 	execvp("cat", file);	
 
 	return;
-}
+} */
 
 std::vector<char *> tokens;
 
-void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connector2, int o)		//Checks if a token is a connector
+void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connector2)		//Checks if a token is a connector
 {
 	//std::vector<char *> tokens;
 	tokens.push_back(token);	
+	std::string tokenS(token);
 
 	std::string sor = "||";
 	char *orr = new char [sor.length()+1];
@@ -123,10 +128,14 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	std::string in = "<";
 	char *inn = new char [in.length()+1];
 	strcpy(inn, in.c_str());
-	std::string out = ">";
-	char *outt = new char [out.length()+1];
-	strcpy(outt, out.c_str());
+//	std::string out2 = ">>";
+//	char *outt2 = new char [out2.length()+1];
+//	strcpy(outt2, out2.c_str());
 
+	std::string out1 = ">";
+	char *outt = new char [out1.length()+1];
+	strcpy(outt, out1.c_str());
+	
 	std::string ext = "exit";
 	std::string tokenstring = token;
 	if((ext == tokenstring && connector2 == 3) || (ext == tokenstring && connector2 == 0))
@@ -137,23 +146,41 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	{
 		exit(0);
 	}
-	if(connector2 == 8)
+/*	if(connector2 == 8)
 	{
-		return;
-	}
-	if(connector2 == 6 || connector2 == 8)				//If input
-	{
-		char **b = &token;
+		int saveout;
+		if(-1 == (saveout = dup(1)))
+		{
+			perror("Error with dup. ");
+		}
 		if(connector2 == 8)
 		{
-			std::cout << "called";
-			if(-1 == (dup2(o, 1)))
+			if(-1 == (dup2(out, 1)))
+			{
+				perror("Error with dup2. ");
+			}
+			close(out);
+		}
+		std::cout << "hi";	
+	}*/
+		
+	if(connector2 == 6)// || connector2 == 8)				//If input
+	{
+		//int saveout;
+		//if(-1 == (saveout = dup(1)))
+		//{
+		//	perror("Error with dup. ");
+		//}
+		char **b = &token;
+/*		if(connector2 == 8)
+		{
+			if(-1 == (dup2(out, 1)))
 			{
 				perror("Error with dup2.");
 			}
-			close(o);
+			close(out);
 		}
-
+*/
 		int pid = fork();
 		if(pid == -1){
 			perror("ERROR!");
@@ -174,23 +201,51 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 				perror("Wait error!");
 			}
 		}
+	//	if(-1 == (dup2(saveout, 1)))
+	//	{
+	//		perror("Error with dup2. ");
+	//	}
 		
 		return;
 	}
-	if(connector2 == 7)				//If output
+	
+	if(connector2 == 9)
 	{
 		int saveout;
 		if(-1 == (saveout = dup(1)))
 		{
 			perror("Error with dup.");
 		}
+		//const char *b = token;
+		//int o = open(b, O_WRONLY |O_APPEND | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		//if(-1 == (dup2(o, 1)))
+		//{
+		//	perror("Error with dup2. ");
+		//}
+		//close(o);	
+//		exec(j);
+//		if(-1 == (dup2(saveout, 1)))
+//		{
+//			perror("Error with dup2. ");
+//		}
+		return;
+	}
+
+	if(connector2 == 7)				//If output
+	{
+		int saveout;
+		int o = 0;
+		if(-1 == (saveout = dup(1)))
+		{
+			perror("Error with dup.");
+		}
 		const char *b = token;
-		int out = open(b, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);	
-		if(-1 == (dup2(out, 1)))
+		o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		if(-1 == (dup2(o, 1)))
 		{
 			perror("Error with dup2. ");
 		}
-		close(out);	
+		close(o);	
 		exec(j);
 		if(-1 == (dup2(saveout, 1)))
 		{
@@ -274,26 +329,34 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	//	int fd[2];
 	//	pipe(fd);
 	//	dup(fd[0]);
-		if(connector2 == 8)
+		/*if(connector2 == 8)
 		{}
-		else{
+		else{*/
 			connector2 = 6;
-		}	
+	//	}	
 		j = NULL;
 		i = 0; 
 		//redirection(j);
 	//	exec(j);
 	//	return;
 	}
+	else if(std::string::npos != tokenS.find(">>"))
+	{
+		connector2 = 9;
+	}
+//	else if(*token == *outt2)
+//	{
+//		std::cout << "double out";
+//	}
 	else if(*token == *outt)
 	{
-		if(connector2 == 8)
-		{
-			return;
-		}
-		else{
+	//	if(connector2 == 8)
+	//	{
+	//		return;
+	//	}
+	//	else{
 			connector2 = 7;
-		}
+	//	}
 //		j = NULL;
 //		i = 0;
 	}
@@ -320,22 +383,15 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	}
 }
 	
-
-void parsing(char *inpt)									//parses by using spaces
+/*void preparse(char *inpt)
 {
-	int out = 0;
-	int numarg = 0;
-	int cap = 0;
-	int connector = 0;
-	char **args; 
+	std::cout << "preparse called";
 	char *comm_1 = strtok(inpt, " ");
-	char *comm_2 = strtok(inpt, " ");
 	while(comm_1 != NULL)
 	{
-		std::cout << "hi1";
-		std::string out = ">";
-		char *outt = new char [out.length()+1];
-		strcpy(outt, out.c_str());
+		std::string out1 = ">";
+		char *outt = new char [out1.length()+1];
+		strcpy(outt, out1.c_str());
 		if(connector == 7)				//If output
 		{
 			int saveout;
@@ -345,6 +401,10 @@ void parsing(char *inpt)									//parses by using spaces
 			}
 			const char *b = comm_1 ;
 			out = open(b, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);	
+			if(out == -1)
+			{
+				perror("Open error. ");
+			}
 		//	if(-1 == (dup2(out, 1)))
 		//	{
 		//		perror("Error with dup2. ");
@@ -362,7 +422,22 @@ void parsing(char *inpt)									//parses by using spaces
 			connector = 7;
 		}
 		comm_1 = strtok(NULL, " ");
-	}	
+	}
+	return;
+}*/
+	
+void parsing(char *inpt)									//parses by using spaces
+{
+//	std::cout << "parsing called";
+//	int out = 0;
+	int numarg = 0;
+	int cap = 0;
+	int connector = 0;
+	char **args; 
+	//char *comm_1 = strtok(inpt, " ");
+	char *comm_2 = strtok(inpt, " ");
+	
+	
 //	comm_1 = strtok(inpt," ");
 //	char *p = strchr(inpt, '>');
 	//printf("found at %d\n", p);
@@ -378,8 +453,7 @@ void parsing(char *inpt)									//parses by using spaces
 
 	while(comm_2 != NULL)
 	{
-		std::cout << "hi";
-		findconnectors(comm_2,numarg, args, cap, connector, out);
+		findconnectors(comm_2,numarg, args, cap, connector);
 		comm_2 = strtok(NULL, " ");
 	}
 	if(connector == 2)									//If || dont execute right side
@@ -419,6 +493,11 @@ void userlogin()
 int main(int argc, char **argv)
 {
 	std::string usrin;
+//	while(usrin != "exit")
+//	{
+		
+//		preparse(cstr);
+//	}
 	while(usrin != "exit")
 	{
 		userlogin();
@@ -430,6 +509,7 @@ int main(int argc, char **argv)
 		}
 		char *cstr = new char [usrin.length()+1];
 		std::strcpy (cstr, usrin.c_str());
+	//	preparse(cstr);
 		parsing(cstr);
 	}
 	return 0;	

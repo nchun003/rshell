@@ -171,7 +171,8 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		//{
 		//	perror("Error with dup. ");
 		//}
-		char **b = &token;
+//		char **b = &token;
+//		char *b[] = {token, NULL};
 /*		if(connector2 == 8)
 		{
 			if(-1 == (dup2(out, 1)))
@@ -181,6 +182,8 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 			close(out);
 		}
 */
+		j[1] = token;
+		j[2] = NULL;
 		int pid = fork();
 		if(pid == -1){
 			perror("ERROR!");
@@ -188,7 +191,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 		else if(pid == 0)			//Child process
 		{
-			if(-1 == execvp(tokens[0], b))
+			if(-1 == execvp(j[0], j))//tokens[0], b))//tokens[0], b))
 			{
 				perror("Error execvp.");
 			}
@@ -210,37 +213,52 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	}
 	
 	if(connector2 == 9)
-	{
-		int saveout;
+	{	int saveout;
 		if(-1 == (saveout = dup(1)))
 		{
-			perror("Error with dup.");
+			perror("Error with dup. ");
 		}
-		//const char *b = token;
-		//int o = open(b, O_WRONLY |O_APPEND | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
-		//if(-1 == (dup2(o, 1)))
-		//{
-		//	perror("Error with dup2. ");
-		//}
-		//close(o);	
-//		exec(j);
-//		if(-1 == (dup2(saveout, 1)))
-//		{
-//			perror("Error with dup2. ");
-//		}
-		return;
-	}
+		const char *b = token;
+		int o = open(b, O_WRONLY |O_APPEND | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		if(-1 == (dup2(o, 1)))
+		{
+			perror("Error with dup2. ");
+		}
+		close(o);	
+		int pid = fork();
+		if(pid == -1){
+			perror("ERROR!");
+			exit(1);
+		}
+		else if(pid == 0)			//Child process
+		{
+			if(-1 == execvp(j[0], j))
+			{
+				perror("Error execvp.");
+			}
+			exit(1);			//Child killed when done with task
+		}
+		else if(pid > 0)
+		{
+			
+			if(wait(0) == -1)		//Waits for child process to finish
+			{
+				perror("Wait error!");
+			}
+			if(-1 == (dup2(saveout, 1)))
+			{
+				perror("Error with dup2. ");
+			}	
+			close(saveout);
+		}
 
-	if(connector2 == 7)				//If output
-	{
-		int saveout;
-		int o = 0;
+		/*int saveout;
 		if(-1 == (saveout = dup(1)))
 		{
 			perror("Error with dup.");
 		}
 		const char *b = token;
-		o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		int o = open(b, O_WRONLY |O_APPEND | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
 		if(-1 == (dup2(o, 1)))
 		{
 			perror("Error with dup2. ");
@@ -250,9 +268,70 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		if(-1 == (dup2(saveout, 1)))
 		{
 			perror("Error with dup2. ");
-		}
+		}*/
 		return;
 	}
+
+	if(connector2 == 7)				//If output
+	{
+		int saveout;
+		if(-1 == (saveout = dup(1)))
+		{
+			perror("Error with dup. ");
+		}
+		const char *b = token;
+		int o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		if(-1 == (dup2(o, 1)))
+		{
+			perror("Error with dup2. ");
+		}
+		close(o);	
+		int pid = fork();
+		if(pid == -1){
+			perror("ERROR!");
+			exit(1);
+		}
+		else if(pid == 0)			//Child process
+		{
+			if(-1 == execvp(j[0], j))
+			{
+				perror("Error execvp.");
+			}
+			exit(1);			//Child killed when done with task
+		}
+		else if(pid > 0)
+		{
+			
+			if(wait(0) == -1)		//Waits for child process to finish
+			{
+				perror("Wait error!");
+			}
+			if(-1 == (dup2(saveout, 1)))
+			{
+				perror("Error with dup2. ");
+			}	
+			close(saveout);
+		}
+		/*int saveout;
+		if(-1 == (saveout = dup(1)))
+		{
+			perror("Error with dup.");
+		}
+		const char *b = token;
+		int o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		if(-1 == (dup2(o, 1)))
+		{
+			perror("Error with dup2. ");
+		}
+		close(o);	
+		exec(j);
+		if(-1 == (dup2(saveout, 1)))
+		{
+			perror("Error with dup2. ");
+		}*/
+		return;
+	}
+
 	if(connector2 == 5)
 	{
 		return;
@@ -334,8 +413,8 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		else{*/
 			connector2 = 6;
 	//	}	
-		j = NULL;
-		i = 0; 
+//		j = NULL;
+//		i = 0; 
 		//redirection(j);
 	//	exec(j);
 	//	return;
@@ -460,7 +539,7 @@ void parsing(char *inpt)									//parses by using spaces
 	{
 		return;
 	}
-	if(connector != 6 && connector != 7)
+	if(connector != 6 && connector != 7 && connector != 9)
 	{
 		exec(args);
 	}	

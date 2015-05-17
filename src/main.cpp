@@ -106,7 +106,8 @@ void expand(int &size2, int &cap2, char **&array)
 } */
 
 std::vector<char *> tokens;
-
+std::vector<char **> tokens2(200);
+int x = 0;
 void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connector2)		//Checks if a token is a connector
 {
 	//std::vector<char *> tokens;
@@ -128,6 +129,9 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	std::string in = "<";
 	char *inn = new char [in.length()+1];
 	strcpy(inn, in.c_str());
+	std::string p = "|";
+	char *p2 = new char [p.length()+1];
+	strcpy(p2, p.c_str());
 //	std::string out2 = ">>";
 //	char *outt2 = new char [out2.length()+1];
 //	strcpy(outt2, out2.c_str());
@@ -163,7 +167,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 		std::cout << "hi";	
 	}*/
-		
+	
 	if(connector2 == 6)// || connector2 == 8)				//If input
 	{
 		//int saveout;
@@ -220,11 +224,18 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 		const char *b = token;
 		int o = open(b, O_WRONLY |O_APPEND | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		if(o == -1)
+		{
+			perror("Error with open. ");
+		}
 		if(-1 == (dup2(o, 1)))
 		{
 			perror("Error with dup2. ");
 		}
-		close(o);	
+		if(-1 == close(o))
+		{
+			perror("Error with close. ");
+		}	
 		int pid = fork();
 		if(pid == -1){
 			perror("ERROR!");
@@ -249,7 +260,10 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 			{
 				perror("Error with dup2. ");
 			}	
-			close(saveout);
+			if(-1 == close(saveout))
+			{
+				perror("Error with close. ");
+			}
 		}
 
 		/*int saveout;
@@ -281,11 +295,18 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 		const char *b = token;
 		int o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		if(o == -1)
+		{
+			perror("Error with open. ");
+		}
 		if(-1 == (dup2(o, 1)))
 		{
 			perror("Error with dup2. ");
 		}
-		close(o);	
+		if(-1 == close(o))
+		{
+			perror("Error with close. ");
+		}
 		int pid = fork();
 		if(pid == -1){
 			perror("ERROR!");
@@ -310,7 +331,10 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 			{
 				perror("Error with dup2. ");
 			}	
-			close(saveout);
+			if(-1 == close(saveout))
+			{
+				perror("Error with close. ");
+			}
 		}
 		/*int saveout;
 		if(-1 == (saveout = dup(1)))
@@ -321,7 +345,6 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		int o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
 		if(-1 == (dup2(o, 1)))
 		{
-			perror("Error with dup2. ");
 		}
 		close(o);	
 		exec(j);
@@ -371,7 +394,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		connector2 = 1;
 		++result;
 	}
-	if(*token == *orr)									//Everything before || will get executed
+	if(std::string::npos != tokenS.find("||"))//*token == *orr)									//Everything before || will get executed
 	{
 		if(connector2 == 2)								//If or command already succeeded, leave
 		{
@@ -391,6 +414,18 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		
 		return;		
 	} 
+	if(*token == *p2)
+	{
+		connector2 = 10;
+		tokens2[x] = j;
+		x++;
+		j = NULL;
+		i = 0;
+		//int z = i-1;
+		//j[z] = NULL;
+		return;
+	}
+
 	else if(*token == *andd)
 	{
 		connector2 = 3;
@@ -450,10 +485,81 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 			expand(i, capacity, j);
 		}
 		int z = i-1;
+		//std::cout << z;
 		j[z] = token;
+		//if(connector2 == 10)
+		//{
+		//	std::cout << "bye";
+		//	tokens2[x] = j;
+		//	x++;
+		//	connector2 = 11;
+		//}
+		//if(tokens2[0] == NULL)
+		//{
+		//	std::cout << "tokens2 null";
+		//}
+		//std::cout << "hi" << token;
 	}
-
-	if(connector2 == 1)									//If ; connector was found, everything before is executed
+/*	if(connector2 == 11)
+	{
+		std::cout << "hi2";
+		//char *a = {"sort", "-r", NULL};
+		//const char *b[] = {"sort", "-r", NULL};
+		//char *b = new char[3];
+		//char **a;
+		//strcpy(*a, &b);
+		//char **a = &b;
+		//char *a = "hi";
+		//char *const b[] = {a};
+		int pid;
+		int pipefd[2];
+		if(-1 == pipe(pipefd))
+		{
+			perror("Error pipe. ");
+		}
+		pid = fork();
+		if(pid == -1)
+		{
+			perror("Fork error. ");
+		}
+		else if(pid == 0)
+		{
+			
+			if(-1 == dup2(pipefd[0], 0))
+			{
+				perror("Error dup2.");
+			}
+			if(-1 == close(pipefd[1]))
+			{
+				perror("Error close. ");
+			}
+			if(-1 == execvp(tokens2[1][0], tokens2[1]))
+			{
+				perror("Error execvp. ");
+			}
+		}
+		else if(pid > 0)
+		{
+			//if(wait(0) == -1)
+			//{
+			//	perror("Wait error. ");
+			//}
+			if(-1 == dup2(pipefd[1], 1))
+			{
+				perror("Error dup2. ");
+			}
+			if(-1 == close(pipefd[0]))
+			{
+				perror("Error close. ");
+			}
+			if(-1 == execvp(tokens2[0][0], tokens2[0]))
+			{
+				perror("Error execvp. ");
+			}
+		}
+		return;
+	}	
+*/	if(connector2 == 1)									//If ; connector was found, everything before is executed
 	{
 		exec(j);
 		connector2 = 0;
@@ -515,7 +621,7 @@ void parsing(char *inpt)									//parses by using spaces
 	char **args; 
 	//char *comm_1 = strtok(inpt, " ");
 	char *comm_2 = strtok(inpt, " ");
-	
+		
 	
 //	comm_1 = strtok(inpt," ");
 //	char *p = strchr(inpt, '>');
@@ -535,11 +641,96 @@ void parsing(char *inpt)									//parses by using spaces
 		findconnectors(comm_2,numarg, args, cap, connector);
 		comm_2 = strtok(NULL, " ");
 	}
+	if(connector == 10)
+	{
+		//if(connector2 == 10)
+		//{
+		//	std::cout << "bye";
+			tokens2[x] = args;
+			x++;
+		//}
+		//char *a = {"sort", "-r", NULL};
+		//const char *b[] = {"sort", "-r", NULL};
+		//char *b = new char[3];
+		//char **a;
+		//strcpy(*a, &b);
+		//char **a = &b;
+		//char *a = "hi";
+		//char *const b[] = {a};
+		int pid;
+		int pipefd[2];
+		if(-1 == pipe(pipefd))
+		{
+			perror("Error pipe. ");
+		}
+		pid = fork();
+		if(pid == -1)
+		{
+			perror("Fork error. ");
+		}
+		else if(pid == 0)
+		{
+			if(-1 == dup2(pipefd[0], 0))
+			{
+				perror("Error dup2.");
+			}
+			if(-1 == close(pipefd[1]))
+			{
+				perror("Error close. ");
+			}
+			if(-1 == execvp(tokens2[1][0], tokens2[1]))
+			{
+				perror("Error execvp. ");
+			}
+		}
+		else if(pid > 0)
+		{
+			//if(wait(0) == -1)
+			//{
+			//	perror("Wait error. ");
+			//}	
+			int pid2;
+			pid2 = fork();
+			if(pid2 == -1)
+			{
+				perror("Fork error. ");
+			}
+			else if(pid2 == 0)
+			{
+				
+				if(-1 == dup2(pipefd[1], 1))
+				{
+					perror("Error dup2. ");
+				}
+				if(-1 == close(pipefd[0]))
+				{
+					perror("Error close. ");
+				}
+				if(-1 == execvp(tokens2[0][0], tokens2[0]))
+				{
+					perror("Error execvp. ");
+				}
+			}
+			else if(pid2 > 0)
+			{
+				if(-1 == close(pipefd[0]))
+				{
+					perror("Error close. ");
+				}
+				if(-1 == close(pipefd[1]))
+				{
+					perror("Error close. ");
+				}
+				wait(0);
+				wait(0);
+			}
+		}
+	}
 	if(connector == 2)									//If || dont execute right side
 	{
 		return;
 	}
-	if(connector != 6 && connector != 7 && connector != 9)
+	if(connector != 6 && connector != 7 && connector != 9 && connector != 10)
 	{
 		exec(args);
 	}	

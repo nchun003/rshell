@@ -16,7 +16,7 @@ int errorcalled;
 //int out = 0;
 //int connector = 0;
 
-void exec(char **&argv)
+void exec(std::vector<char *> &argv)//char **&argv)
 {
 	errorcalled = 0;
 	int pid = fork();
@@ -27,7 +27,7 @@ void exec(char **&argv)
 	else if(pid == 0)			//Child process
 	{
 //		std::cout << "Child Process";
-		if(-1 == execvp(argv[0], argv))
+		if(-1 == execvp(argv[0], &argv[0]))
 		{
 			perror("execvp");
 			errorcalled++;
@@ -58,7 +58,15 @@ void expand(int &size2, int &cap2, char **&array)
 		{
 			array[n] = '\0';
 		}
-		return;
+//		char **temp = new char*[cap2];
+//		std::copy(array, array + cap2, temp);
+//		delete []array;
+//		array = temp;
+//		temp = NULL;
+//		delete []temp;
+//		delete []array;
+//		free(array);
+//		return;
 	}
 	else{
 		cap2 = cap2 *2;
@@ -73,8 +81,13 @@ void expand(int &size2, int &cap2, char **&array)
 		{
 			array[k] = '\0';
 		}
+	//	free(array);
 	}
+	//	free(array);
+	return;
 }
+
+
 
 /*void redirection(char **file)
 {
@@ -106,15 +119,18 @@ void expand(int &size2, int &cap2, char **&array)
 } */
 
 std::vector<char *> tokens;
-std::vector<char **> tokens2(200);
+//std::vector<char **> tokens2(200);
+std::vector<std::vector<char *>> tokens2(200);
 int x = 0;
-void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connector2)		//Checks if a token is a connector
+void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, int &connector2)		//Checks if a token is a connector
 {
 	//std::vector<char *> tokens;
 	tokens.push_back(token);	
 	std::string tokenS(token);
 
-	std::string sor = "||";
+
+
+	/*std::string sor = "||";
 	char *orr = new char [sor.length()+1];
 	strcpy(orr, sor.c_str());
 	std::string sand = "&&";
@@ -132,14 +148,14 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	std::string p = "|";
 	char *p2 = new char [p.length()+1];
 	strcpy(p2, p.c_str());
-//	std::string out2 = ">>";
-//	char *outt2 = new char [out2.length()+1];
-//	strcpy(outt2, out2.c_str());
+	std::string out2 = ">>";
+	char *outt2 = new char [out2.length()+1];
+	strcpy(outt2, out2.c_str());
 
 	std::string out1 = ">";
 	char *outt = new char [out1.length()+1];
 	strcpy(outt, out1.c_str());
-	
+	*/
 	std::string ext = "exit";
 	std::string tokenstring = token;
 	if((ext == tokenstring && connector2 == 3) || (ext == tokenstring && connector2 == 0))
@@ -195,7 +211,8 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 		else if(pid == 0)			//Child process
 		{
-			if(-1 == execvp(j[0], j))//tokens[0], b))//tokens[0], b))
+//			j.push_back(NULL);
+			if(-1 == execvp(j[0], &j[0]))//tokens[0], b))//tokens[0], b))
 			{
 				perror("Error execvp.");
 			}
@@ -243,7 +260,8 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 		else if(pid == 0)			//Child process
 		{
-			if(-1 == execvp(j[0], j))
+			j.push_back(NULL);
+			if(-1 == execvp(j[0], &j[0]))
 			{
 				perror("Error execvp.");
 			}
@@ -314,7 +332,8 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 		else if(pid == 0)			//Child process
 		{
-			if(-1 == execvp(j[0], j))
+			j.push_back(NULL);
+			if(-1 == execvp(j[0], &j[0]))
 			{
 				perror("Error execvp.");
 			}
@@ -359,12 +378,15 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	{
 		return;
 	}
-	if(*token == *comn)
+	if(std::string::npos != tokenS.find("#"))//*/*token == *comn)
 	{
+		j.push_back(NULL);
 		exec(j);
-		j = NULL;
+		//j = NULL;
+		j.clear();
 		i = 0;
 		connector2 = 5;
+	//	free(comn);
 		return;
 	}
 	if(connector2 == 4)									//&& failed
@@ -372,63 +394,81 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		return;
 	}
 	
-	if(*token == *coll)									//If token is ; everything before it will get executed
+	if(std::string::npos != tokenS.find(";"))//*/*token == *coll)									//If token is ; everything before it will get executed
 	{
 		connector2 = 1;
+		j.push_back(NULL);
 		exec(j);
-		j = NULL;
+		//j = NULL;
+		j.clear();
 		i = 0;
+		//delete []coll;
 		return;
 	}
 	char *result = token;
-	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
+	char col2[] = ";";
+	char *coll2 = col2;
+	while((result = std::strstr(result, coll2)) != NULL){					//Checks if token contains ';'
 //		std::cout << "Found " << coll << "starting at " << result << std::endl;
 		strncpy(result, "\0", 2);
 		if(connector2 == 2)
 		{
-			j = NULL;
+			//j = NULL;
+			j.clear();
 			i = 0;
 			connector2 = 0;
 			return;
 		}
 		connector2 = 1;
 		++result;
+	//	free(coll);
 	}
-	if(std::string::npos != tokenS.find("||"))//*token == *orr)									//Everything before || will get executed
+	if(std::string::npos != tokenS.find("||"))//*/*token == *orr)									//Everything before || will get executed
 	{
 		if(connector2 == 2)								//If or command already succeeded, leave
 		{
-			j = NULL;
+			//j = NULL;
+			j.clear();
 			i = 0;
 			return;
 		}
 		connector2 = 2;
+		j.push_back(NULL);
 		exec(j);
 		if(errorcalled == 1)								//If or failed try next command
 		{
 			connector2 = 0;
 			
 		}
-		j = NULL;
+		//j = NULL;
+		j.clear();
 		i = 0;
-		
 		return;		
 	} 
-	if(*token == *p2)
+	if(std::string::npos != tokenS.find("|"))//*/*token == *p2)
 	{
 		connector2 = 10;
-		tokens2[x] = j;
+		//tokens2[x] = j;
+	//	tokens2[x] = &j[0];
+		tokens2.push_back(j);
 		x++;
-		j = NULL;
+		//j = NULL;
+		j.clear();
 		i = 0;
 		//int z = i-1;
 		//j[z] = NULL;
+	//	free(p2);
 		return;
 	}
 
-	else if(*token == *andd)
+	//std::string sand = "&&";
+	//char *andd = new char [sand.length()+1];
+	//strcpy(andd, sand.c_str());
+
+	else if(std::string::npos != tokenS.find("&&"))//*/*token == *andd)
 	{
 		connector2 = 3;
+		j.push_back(NULL);
 		exec(j); 
 		if(errorcalled == 1)
 		{
@@ -436,9 +476,10 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		}
 	//	j = NULL;
 		i = 0;
+		//free(andd);
 		return;
 	}
-	else if(*token == *inn)
+	else if(std::string::npos != tokenS.find("<"))//*/*token == *inn)
 	{
 	//	int fd[2];
 	//	pipe(fd);
@@ -453,6 +494,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		//redirection(j);
 	//	exec(j);
 	//	return;
+	//	delete []inn;
 	}
 	else if(std::string::npos != tokenS.find(">>"))
 	{
@@ -462,7 +504,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 //	{
 //		std::cout << "double out";
 //	}
-	else if(*token == *outt)
+	else if(std::string::npos != tokenS.find(">"))/**token == *outt)*/
 	{
 	//	if(connector2 == 8)
 	//	{
@@ -473,6 +515,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	//	}
 //		j = NULL;
 //		i = 0;
+	//	delete []outt;
 	}
 	else{											//If token is not connector it will get put in j(argv)
 		if(connector2 == 2)
@@ -480,13 +523,15 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 			return;
 		}			
 		++i;
-		if(i >= capacity || i == 1)
-		{
-			expand(i, capacity, j);
-		}
-		int z = i-1;
+		//if(i >= capacity || i == 1)
+		//{
+	//		expand(i, capacity, j);
+	//	}
+		//int z = i-1;
 		//std::cout << z;
-		j[z] = token;
+		//std::cout << "pushed";
+	//	j[z] = token;
+		j.push_back(token);
 		//if(connector2 == 10)
 		//{
 		//	std::cout << "bye";
@@ -499,6 +544,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		//	std::cout << "tokens2 null";
 		//}
 		//std::cout << "hi" << token;
+		return;
 	}
 /*	if(connector2 == 11)
 	{
@@ -509,6 +555,7 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 		//char **a;
 		//strcpy(*a, &b);
 		//char **a = &b;
+
 		//char *a = "hi";
 		//char *const b[] = {a};
 		int pid;
@@ -561,11 +608,21 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	}	
 */	if(connector2 == 1)									//If ; connector was found, everything before is executed
 	{
+		j.push_back(NULL);
 		exec(j);
 		connector2 = 0;
-		j = NULL;
+		//j = NULL;
+		j.clear();
 		i = 0;
 	}
+
+	//delete[] orr;
+	//delete[] andd;
+	//delete[] coll;
+	//delete[] inn;
+	//delete[] comn;
+	//delete[] p2;
+	//delete[] outt;
 }
 	
 /*void preparse(char *inpt)
@@ -610,53 +667,9 @@ void  findconnectors(char *token,int &i, char **&j, int &capacity, int &connecto
 	}
 	return;
 }*/
-	
-void parsing(char *inpt)									//parses by using spaces
-{
-//	std::cout << "parsing called";
-//	int out = 0;
-	int numarg = 0;
-	int cap = 0;
-	int connector = 0;
-	char **args; 
-	//char *comm_1 = strtok(inpt, " ");
-	char *comm_2 = strtok(inpt, " ");
-		
-	
-//	comm_1 = strtok(inpt," ");
-//	char *p = strchr(inpt, '>');
-	//printf("found at %d\n", p);
-//	if(p != NULL)
-//	{
-//		std::cout << "hi";
-//	}
-//	else
-//	{
-		//std::cout << "bye";
-//	}
-//	char *comm_2 = strtok(inpt, " ");
 
-	while(comm_2 != NULL)
-	{
-		findconnectors(comm_2,numarg, args, cap, connector);
-		comm_2 = strtok(NULL, " ");
-	}
-	if(connector == 10)
-	{
-		//if(connector2 == 10)
-		//{
-		//	std::cout << "bye";
-			tokens2[x] = args;
-			x++;
-		//}
-		//char *a = {"sort", "-r", NULL};
-		//const char *b[] = {"sort", "-r", NULL};
-		//char *b = new char[3];
-		//char **a;
-		//strcpy(*a, &b);
-		//char **a = &b;
-		//char *a = "hi";
-		//char *const b[] = {a};
+/*void piping()
+{
 		int pid;
 		int pipefd[2];
 		if(-1 == pipe(pipefd))
@@ -689,6 +702,98 @@ void parsing(char *inpt)									//parses by using spaces
 			//{
 			//	perror("Wait error. ");
 			//}	
+			//for(int i = 0; i <= 1 ; ++i)
+			//{
+			close(pipefd[1]);
+			close(pipefd[0]);
+			piping;
+		}
+}
+*/	
+void parsing(char *inpt)									//parses by using spaces
+{
+//	std::cout << "parsing called";
+//	int out = 0;
+	int numarg = 0;
+	int cap = 0;
+	int connector = 0;
+	//char **args; 
+	std::vector<char *> args;
+	//char *comm_1 = strtok(inpt, " ");
+	char *comm_2 = strtok(inpt, " ");
+		
+	
+//	comm_1 = strtok(inpt," ");
+//	char *p = strchr(inpt, '>');
+	//printf("found at %d\n", p);
+//	if(p != NULL)
+//	{
+//		std::cout << "hi";
+//	}
+//	else
+//	{
+		//std::cout << "bye";
+//	}
+//	char *comm_2 = strtok(inpt, " ");
+
+	while(comm_2 != NULL)
+	{
+		findconnectors(comm_2,numarg, args, cap, connector);
+		comm_2 = strtok(NULL, " ");
+	}
+	if(connector == 10)
+	{
+		//if(connector2 == 10)
+		//{
+		//	std::cout << "bye";
+			//tokens2[x] = args;
+			//tokens2[x] = &args[0];
+			tokens2.push_back(args);
+			x++;
+		//}
+		//char *a = {"sort", "-r", NULL};
+		//const char *b[] = {"sort", "-r", NULL};
+		//char *b = new char[3];
+		//char **a;
+		//strcpy(*a, &b);
+		//char **a = &b;
+		//char *a = "hi";
+		//char *const b[] = {a};
+		int pid;
+		int pipefd[2];
+		if(-1 == pipe(pipefd))
+		{
+			perror("Error pipe. ");
+		}
+		pid = fork();
+		if(pid == -1)
+		{
+			perror("Fork error. ");
+		}
+		else if(pid == 0)
+		{
+			if(-1 == dup2(pipefd[0], 0))
+			{
+				perror("Error dup2.");
+			}
+			if(-1 == close(pipefd[1]))
+			{
+				perror("Error close. ");
+			}
+			tokens2[0].push_back(NULL);
+			if(-1 == execvp(tokens2[1][0], &tokens2[1][1]))
+			{
+				perror("Error execvp. ");
+			}
+		}
+		else if(pid > 0)
+		{
+			//if(wait(0) == -1)
+			//{
+			//	perror("Wait error. ");
+			//}	
+			//for(int i = 0; i <= 1 ; ++i)
+			//{
 			int pid2;
 			pid2 = fork();
 			if(pid2 == -1)
@@ -706,7 +811,8 @@ void parsing(char *inpt)									//parses by using spaces
 				{
 					perror("Error close. ");
 				}
-				if(-1 == execvp(tokens2[0][0], tokens2[0]))
+				tokens2[1].push_back(NULL);
+				if(-1 == execvp(tokens2[0][0], &tokens2[0][0]))
 				{
 					perror("Error execvp. ");
 				}
@@ -721,9 +827,15 @@ void parsing(char *inpt)									//parses by using spaces
 				{
 					perror("Error close. ");
 				}
-				wait(0);
-				wait(0);
-			}
+				if(-1 == wait(0))
+				{
+					perror("Error wait. ");
+				}
+				if(-1 == wait(0))
+				{
+					perror("Error wait. ");
+				}
+			}//}
 		}
 	}
 	if(connector == 2)									//If || dont execute right side
@@ -732,12 +844,15 @@ void parsing(char *inpt)									//parses by using spaces
 	}
 	if(connector != 6 && connector != 7 && connector != 9 && connector != 10)
 	{
+		std::cout << "hi";
+		args.push_back(NULL);
 		exec(args);
 	}	
 	if(errorcalled == 1)
 	{
 		exit(0);
 	}
+//	delete [] args;
 	return;
 }
 
@@ -781,6 +896,8 @@ int main(int argc, char **argv)
 		std::strcpy (cstr, usrin.c_str());
 	//	preparse(cstr);
 		parsing(cstr);
+		delete []cstr;
 	}
+//	delete []cstr;
 	return 0;	
 }

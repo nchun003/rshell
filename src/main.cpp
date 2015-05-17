@@ -18,6 +18,7 @@ int errorcalled;
 
 void exec(std::vector<char *> &argv)//char **&argv)
 {
+	std::cout << "HI";
 	errorcalled = 0;
 	int pid = fork();
 	if(pid == -1){
@@ -26,7 +27,7 @@ void exec(std::vector<char *> &argv)//char **&argv)
 	}
 	else if(pid == 0)			//Child process
 	{
-//		std::cout << "Child Process";
+//		std::cout << "Child Process";	
 		if(-1 == execvp(argv[0], &argv[0]))
 		{
 			perror("execvp");
@@ -120,7 +121,7 @@ void expand(int &size2, int &cap2, char **&array)
 
 std::vector<char *> tokens;
 //std::vector<char **> tokens2(200);
-std::vector<std::vector<char *>> tokens2(200);
+std::vector<std::vector<char *>> tokens2;
 int x = 0;
 void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, int &connector2)		//Checks if a token is a connector
 {
@@ -450,7 +451,10 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		connector2 = 10;
 		//tokens2[x] = j;
 	//	tokens2[x] = &j[0];
+		j.push_back(NULL);
 		tokens2.push_back(j);
+		//std::vector<char *>v = tokens2[0];
+		//std::cout << v[0];
 		x++;
 		//j = NULL;
 		j.clear();
@@ -532,6 +536,7 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		//std::cout << "pushed";
 	//	j[z] = token;
 		j.push_back(token);
+		//tokens2.push_back(j);
 		//if(connector2 == 10)
 		//{
 		//	std::cout << "bye";
@@ -743,12 +748,16 @@ void parsing(char *inpt)									//parses by using spaces
 	}
 	if(connector == 10)
 	{
+		args.push_back(NULL);
+		tokens2.push_back(args);
+		//args.push_back(NULL);
+		//tokens2.push_back(args);
 		//if(connector2 == 10)
 		//{
 		//	std::cout << "bye";
 			//tokens2[x] = args;
 			//tokens2[x] = &args[0];
-			tokens2.push_back(args);
+	//		tokens2.push_back(args);
 			x++;
 		//}
 		//char *a = {"sort", "-r", NULL};
@@ -781,7 +790,7 @@ void parsing(char *inpt)									//parses by using spaces
 				perror("Error close. ");
 			}
 			tokens2[0].push_back(NULL);
-			if(-1 == execvp(tokens2[1][0], &tokens2[1][1]))
+			if(-1 == execvp(tokens2[1][0], &tokens2[1][0]))
 			{
 				perror("Error execvp. ");
 			}
@@ -837,6 +846,7 @@ void parsing(char *inpt)									//parses by using spaces
 				}
 			}//}
 		}
+		tokens2.clear();
 	}
 	if(connector == 2)									//If || dont execute right side
 	{
@@ -844,7 +854,7 @@ void parsing(char *inpt)									//parses by using spaces
 	}
 	if(connector != 6 && connector != 7 && connector != 9 && connector != 10)
 	{
-		std::cout << "hi";
+		//std::cout << "hi";
 		args.push_back(NULL);
 		exec(args);
 	}	

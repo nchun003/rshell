@@ -32,7 +32,10 @@ using namespace std;
 
 inline bool directory(const char * name) {
     struct stat buffer;
-    stat (name, &buffer);
+    if(-1 == stat (name, &buffer))
+    {
+        perror("stat error");
+    }
     return S_ISDIR(buffer.st_mode);
 }
 

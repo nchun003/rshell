@@ -110,7 +110,10 @@ int main(int argc, char** argv)
 		if (dest2 < 0)
 		{
 			perror("open");
-			close(source);
+			if(-1 == close(source))
+			{
+				perror("Close Error");
+			}
 			return 1;
 		}
 
@@ -121,14 +124,20 @@ int main(int argc, char** argv)
 		cout << "Wallclock time: " << timeWall << endl;
 		cout << "User time: " << timeUser << endl;
 		cout << "System time: " << timeSystem << endl;
-		close(dest2);
+		if(-1 == close(dest2))
+		{
+			perror("Close Error");
+		}
 
 		argv[2][0] = '3';
 		int dest3 = open(argv[2], O_CREAT|O_EXCL|O_WRONLY, S_IRWXU|S_IRGRP|S_IROTH);
 		if (dest3 < 0)
 		{
 			perror("open");
-			close(source);
+			if(-1 == close(source))
+			{
+				perror("Error Close");
+			}
 			return 1;
 		}
 
@@ -139,7 +148,10 @@ int main(int argc, char** argv)
 		cout << "Wallclock time: " << timeWall << endl;
 		cout << "User time: " << timeUser << endl;
 		cout << "System time: " << timeSystem << endl;
-		close(dest3);
+		if(-1 == close(dest3))
+		{
+			perror("Close Error");
+		}
 	}
 	else
 	{
@@ -147,15 +159,24 @@ int main(int argc, char** argv)
 		if (dest < 0)
 		{
 			perror("open");
-			close(source);
+			if(-1 == close(source))
+			{
+				perror("Close Error");
+			}
 			return 1;
 		}
 
 		ret = copyBuffer(source, dest);
-		close(dest);
+		if(-1 == close(dest))
+		{
+			perror("Close Error");
+		}
 	}
 
-	close(source);
+	if(-1 == close(source))
+	{
+		perror("Close Error");
+	}
 	ret = 0;
 	return ret;
 }

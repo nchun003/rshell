@@ -18,7 +18,6 @@ int errorcalled;
 
 void exec(std::vector<char *> &argv)//char **&argv)
 {
-	std::cout << "HI";
 	errorcalled = 0;
 	int pid = fork();
 	if(pid == -1){
@@ -119,6 +118,7 @@ void expand(int &size2, int &cap2, char **&array)
 	return;
 } */
 
+int o = 0;
 std::vector<char *> tokens;
 //std::vector<char **> tokens2(200);
 std::vector<std::vector<char *>> tokens2;
@@ -305,7 +305,7 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		return;
 	}
 
-	if(connector2 == 7)				//If output
+	if(connector2 == 7 || connector2 == 8)				//If output
 	{
 		int saveout;
 		if(-1 == (saveout = dup(1)))
@@ -313,9 +313,9 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 			perror("Error with dup. ");
 		}
 		const char *b = token;
-		int o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
-		if(o == -1)
-		{
+		o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
+		if(connector2 == 7){
+		if(o == -1)		{
 			perror("Error with open. ");
 		}
 		if(-1 == (dup2(o, 1)))
@@ -355,6 +355,7 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 			{
 				perror("Error with close. ");
 			}
+		}
 		}
 		/*int saveout;
 		if(-1 == (saveout = dup(1)))
@@ -515,7 +516,13 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	//		return;
 	//	}
 	//	else{
+		if(connector2 == 10)
+		{
+			connector2 = 8;
+		}
+		else{
 			connector2 = 7;
+		}
 	//	}
 //		j = NULL;
 //		i = 0;
@@ -746,7 +753,7 @@ void parsing(char *inpt)									//parses by using spaces
 		findconnectors(comm_2,numarg, args, cap, connector);
 		comm_2 = strtok(NULL, " ");
 	}
-	if(connector == 10)
+	if(connector == 10 || connector == 8)
 	{
 		args.push_back(NULL);
 		tokens2.push_back(args);
@@ -768,91 +775,216 @@ void parsing(char *inpt)									//parses by using spaces
 		//char **a = &b;
 		//char *a = "hi";
 		//char *const b[] = {a};
-		int pid;
-		int pipefd[2];
-		if(-1 == pipe(pipefd))
+		if(connector == 8)
 		{
-			perror("Error pipe. ");
-		}
-		pid = fork();
-		if(pid == -1)
-		{
-			perror("Fork error. ");
-		}
-		else if(pid == 0)
-		{
-			if(-1 == dup2(pipefd[0], 0))
+			int saveout;
+			if(-1 == (saveout = (dup(1))))
 			{
-				perror("Error dup2.");
+				perror("Dup error");
 			}
-			if(-1 == close(pipefd[1]))
-			{
-				perror("Error close. ");
+			if(o == -1)		{
+				perror("Error with open. ");
 			}
-			tokens2[0].push_back(NULL);
-			if(-1 == execvp(tokens2[1][0], &tokens2[1][0]))
+			if(-1 == (dup2(o, 1)))
 			{
-				perror("Error execvp. ");
+				perror("Error with dup2. ");
+			}
+			if(-1 == close(o))
+			{
+				perror("Error with close. ");
+			}
+			int pid = fork();
+			if(pid == -1){
+				perror("ERROR!");
+				exit(1);
+			}
+			else if(pid == 0)			//Child process
+			{
+				int pid3;
+				int pipefd[2];
+				if(-1 == pipe(pipefd))
+				{
+					perror("Error pipe. ");
+				}
+				pid3 = fork();
+				if(pid3 == -1)
+				{
+					perror("Fork error. ");
+				}
+				else if(pid3 == 0)
+				{
+					if(-1 == dup2(pipefd[0], 0))
+					{
+						perror("Error dup2.");
+					}
+					if(-1 == close(pipefd[1]))
+					{
+						perror("Error close. ");
+					}
+					tokens2[0].push_back(NULL);
+					if(-1 == execvp(tokens2[1][0], &tokens2[1][0]))
+					{
+						perror("Error execvp. ");
+					}
+				}
+				else if(pid3 > 0)
+				{
+					//if(wait(0) == -1)
+					//{
+					//	perror("Wait error. ");
+					//}	
+					//for(int i = 0; i <= 1 ; ++i)
+					//{
+					int pid2;
+					pid2 = fork();
+					if(pid2 == -1)
+					{
+						perror("Fork error. ");
+					}
+					else if(pid2 == 0)
+					{
+						
+						if(-1 == dup2(pipefd[1], 1))
+						{
+							perror("Error dup2. ");
+						}
+						if(-1 == close(pipefd[0]))
+						{
+							perror("Error close. ");
+						}
+						tokens2[1].push_back(NULL);
+						if(-1 == execvp(tokens2[0][0], &tokens2[0][0]))
+						{
+							perror("Error execvp. ");
+						}
+					}
+					else if(pid2 > 0)
+					{
+						if(-1 == close(pipefd[0]))
+						{
+							perror("Error close. ");
+						}
+						if(-1 == close(pipefd[1]))
+						{
+							perror("Error close. ");
+						}
+						if(-1 == wait(0))
+						{
+							perror("Error wait. ");
+						}
+						if(-1 == wait(0))
+						{
+							perror("Error wait. ");
+						}
+					}//}
+				}	
+				exit(1);			//Child killed when done with task
+			}
+			else if(pid > 0)
+			{
+				
+				if(wait(0) == -1)		//Waits for child process to finish
+				{
+					perror("Wait error!");
+				}
+				if(-1 == (dup2(saveout, 1)))
+				{
+					perror("Error with dup2. ");
+				}	
+				if(-1 == close(saveout))
+				{
+					perror("Error with close. ");
+				}
 			}
 		}
-		else if(pid > 0)
-		{
-			//if(wait(0) == -1)
-			//{
-			//	perror("Wait error. ");
-			//}	
-			//for(int i = 0; i <= 1 ; ++i)
-			//{
-			int pid2;
-			pid2 = fork();
-			if(pid2 == -1)
+		else{
+			int pid;
+			int pipefd[2];
+			if(-1 == pipe(pipefd))
+			{
+				perror("Error pipe. ");
+			}
+			pid = fork();
+			if(pid == -1)
 			{
 				perror("Fork error. ");
 			}
-			else if(pid2 == 0)
+			else if(pid == 0)
 			{
-				
-				if(-1 == dup2(pipefd[1], 1))
+				if(-1 == dup2(pipefd[0], 0))
 				{
-					perror("Error dup2. ");
-				}
-				if(-1 == close(pipefd[0]))
-				{
-					perror("Error close. ");
-				}
-				tokens2[1].push_back(NULL);
-				if(-1 == execvp(tokens2[0][0], &tokens2[0][0]))
-				{
-					perror("Error execvp. ");
-				}
-			}
-			else if(pid2 > 0)
-			{
-				if(-1 == close(pipefd[0]))
-				{
-					perror("Error close. ");
+					perror("Error dup2.");
 				}
 				if(-1 == close(pipefd[1]))
 				{
 					perror("Error close. ");
 				}
-				if(-1 == wait(0))
+				tokens2[0].push_back(NULL);
+				if(-1 == execvp(tokens2[1][0], &tokens2[1][0]))
 				{
-					perror("Error wait. ");
+					perror("Error execvp. ");
 				}
-				if(-1 == wait(0))
+			}
+			else if(pid > 0)
+			{
+				//if(wait(0) == -1)
+				//{
+				//	perror("Wait error. ");
+				//}	
+				//for(int i = 0; i <= 1 ; ++i)
+				//{
+				int pid2;
+				pid2 = fork();
+				if(pid2 == -1)
 				{
-					perror("Error wait. ");
+					perror("Fork error. ");
 				}
-			}//}
+				else if(pid2 == 0)
+				{
+					
+					if(-1 == dup2(pipefd[1], 1))
+					{
+						perror("Error dup2. ");
+					}
+					if(-1 == close(pipefd[0]))
+					{
+						perror("Error close. ");
+					}
+					tokens2[1].push_back(NULL);
+					if(-1 == execvp(tokens2[0][0], &tokens2[0][0]))
+					{
+						perror("Error execvp. ");
+					}
+				}
+				else if(pid2 > 0)
+				{
+					if(-1 == close(pipefd[0]))
+					{
+						perror("Error close. ");
+					}
+					if(-1 == close(pipefd[1]))
+					{
+						perror("Error close. ");
+					}
+					if(-1 == wait(0))
+					{
+						perror("Error wait. ");
+					}
+					if(-1 == wait(0))
+					{
+						perror("Error wait. ");
+					}
+				}//}
+			}
 		}
+
 		tokens2.clear();
 	}
 	if(connector == 2)									//If || dont execute right side
 	{
 		return;
 	}
-	if(connector != 6 && connector != 7 && connector != 9 && connector != 10)
+	if(connector != 6 && connector != 7 && connector != 9 && connector != 10 && connector != 8)
 	{
 		//std::cout << "hi";
 		args.push_back(NULL);

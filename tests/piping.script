@@ -1,0 +1,285 @@
+Script started on Sun 17 May 2015 10:34:36 PM PDT
+~
+nchun003@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * checksyscalls.sh      is your cpp file doing proper error checking?     |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd Documents && cd Rshel[K[K[K[K[Krshell
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls
+bin   bls	     LICENSE	 newfild   nonexistfile   README.md  testfolder
+bla   brandnewfile   Makefile	 newfile   nonexistfile2  src	     testing
+bla2  brandnewfile2  newakldsjf  newfile5  -r		  test_file  tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat < bla
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat [K< doesnotexist
+bash: doesnotexist: No such file or directory
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls > bla
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat bla
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls> newfile2[C[4h [4l[4h-[4l[4ha[4l
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat< newfile2
+.
+..
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+.git
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile2
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls>> bla
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat bla
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile2
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls >> newfile3
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat<[K newfile3
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile2
+newfile3
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls | sort -r
+tests
+testing
+testfolder
+test_file
+src
+README.md
+-r
+nonexistfile2
+nonexistfile
+newfile5
+newfile3
+newfile2
+newfile
+newfild
+newakldsjf
+Makefile
+LICENSE
+brandnewfile2
+brandnewfile
+bls
+bla2
+bla
+bin
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls [K -a[K[K[K\[K -a|sort[K[K[K[K sort
+.
+..
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+.git
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile2
+newfile3
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls | sort -r > newfile4
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat newfile4
+tests
+testing
+testfolder
+test_file
+src
+README.md
+-r
+nonexistfile2
+nonexistfile
+newfile5
+newfile4
+newfile3
+newfile2
+newfile
+newfild
+newakldsjf
+Makefile
+LICENSE
+brandnewfile2
+brandnewfile
+bls
+bla2
+bla
+bin
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls| sort -r[4h [4l[4h-[4l[4ha[4l[C[C[C[C[C[C[C[C[C| bla[1P bla> bla
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat [K< bla
+tests
+testing
+testfolder
+test_file
+src
+README.md
+-r
+nonexistfile2
+nonexistfile
+newfile5
+newfile4
+newfile3
+newfile2
+newfile
+newfild
+newakldsjf
+Makefile
+LICENSE
+.git
+brandnewfile2
+brandnewfile
+bls
+bla2
+bla
+bin
+..
+.
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m exit
+exit
+~
+nchun003@hammer $ exit
+exit
+
+Script done on Sun 17 May 2015 10:39:39 PM PDT

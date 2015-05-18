@@ -46,81 +46,14 @@ void exec(std::vector<char *> &argv)//char **&argv)
 	return;
 }
 
-void expand(int &size2, int &cap2, char **&array)
-{
-	int i;
-	if(size2 ==1)
-	{
-		cap2 = size2;
-		cap2 = cap2*2;
-		array = new char*[cap2];
-		for(int n=0; n<cap2; n++)
-		{
-			array[n] = '\0';
-		}
-//		char **temp = new char*[cap2];
-//		std::copy(array, array + cap2, temp);
-//		delete []array;
-//		array = temp;
-//		temp = NULL;
-//		delete []temp;
-//		delete []array;
-//		free(array);
-//		return;
-	}
-	else{
-		cap2 = cap2 *2;
-		char **temp;
-		temp = array;
-		array = new char*[cap2];
-		for(i =0; i<size2 ; ++i)
-		{
-			array[i] = temp[i];
-		}
-		for(int k = size2; k<cap2; k++)
-		{
-			array[k] = '\0';
-		}
-	//	free(array);
-	}
-	//	free(array);
-	return;
-}
 
 
 
-/*void redirection(char **file)
-{
-//	int savestdin = dup(0);
-//	if(-1 == savestdin){
-//		perror("Error with dup.");
-//	}
-//	else{
-//		const char *file2 = file;
-//		int f = open("src/bla", O_RDONLY);
-//		int f = open("bla", std::fstream::in | std::fstream::out | std::fstream::app);
-//		int fdup = dup2(f,0);
-//		close(f);
-//		if(-1 == fdup)
-//			perror("Error with dup2.");
-//	}
-//	std::string instr("bla");
-//	char *infile = new char[instr.length()+1];
-//	strcpy(infile, instr.c_str());
 
-	//char *grep[] = {infile};
 
-	int in = open("bla", O_RDONLY);
-	//dup2(in, 0);
-	//close(in);
-	execvp("cat", file);	
-
-	return;
-} */
 
 int o = 0;
 std::vector<char *> tokens;
-//std::vector<char **> tokens2(200);
 std::vector<std::vector<char *>> tokens2;
 int x = 0;
 void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, int &connector2)		//Checks if a token is a connector
@@ -130,33 +63,10 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	std::string tokenS(token);
 
 
-
-	/*std::string sor = "||";
-	char *orr = new char [sor.length()+1];
-	strcpy(orr, sor.c_str());
-	std::string sand = "&&";
-	char *andd = new char [sand.length()+1];
-	strcpy(andd, sand.c_str());
-	std::string col = ";";
-	char *coll = new char [col.length()+1];
-	strcpy(coll, col.c_str());
-	std::string comment = "#";
-	char *comn = new char [comment.length()+1];	
-	strcpy(comn, comment.c_str());
-	std::string in = "<";
-	char *inn = new char [in.length()+1];
-	strcpy(inn, in.c_str());
-	std::string p = "|";
-	char *p2 = new char [p.length()+1];
-	strcpy(p2, p.c_str());
-	std::string out2 = ">>";
-	char *outt2 = new char [out2.length()+1];
-	strcpy(outt2, out2.c_str());
-
 	std::string out1 = ">";
 	char *outt = new char [out1.length()+1];
 	strcpy(outt, out1.c_str());
-	*/
+	
 	std::string ext = "exit";
 	std::string tokenstring = token;
 	if((ext == tokenstring && connector2 == 3) || (ext == tokenstring && connector2 == 0))
@@ -555,29 +465,8 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 			return;
 		}			
 		++i;
-		//if(i >= capacity || i == 1)
-		//{
-	//		expand(i, capacity, j);
-	//	}
-		//int z = i-1;
-		//std::cout << z;
-		//std::cout << "pushed";
-	//	j[z] = token;
 		j.push_back(token);
-		//tokens2.push_back(j);
-		//if(connector2 == 10)
-		//{
-		//	std::cout << "bye";
-		//	tokens2[x] = j;
-		//	x++;
-		//	connector2 = 11;
-		//}
-		//if(tokens2[0] == NULL)
-		//{
-		//	std::cout << "tokens2 null";
-		//}
-		//std::cout << "hi" << token;
-		return;
+				return;
 	}
 /*	if(connector2 == 11)
 	{
@@ -649,57 +538,9 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		i = 0;
 	}
 
-	//delete[] orr;
-	//delete[] andd;
-	//delete[] coll;
-	//delete[] inn;
-	//delete[] comn;
-	//delete[] p2;
-	//delete[] outt;
+
 }
 	
-/*void preparse(char *inpt)
-{
-	std::cout << "preparse called";
-	char *comm_1 = strtok(inpt, " ");
-	while(comm_1 != NULL)
-	{
-		std::string out1 = ">";
-		char *outt = new char [out1.length()+1];
-		strcpy(outt, out1.c_str());
-		if(connector == 7)				//If output
-		{
-			int saveout;
-			if(-1 == (saveout = dup(1)))
-			{
-				perror("Error with dup.");
-			}
-			const char *b = comm_1 ;
-			out = open(b, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);	
-			if(out == -1)
-			{
-				perror("Open error. ");
-			}
-		//	if(-1 == (dup2(out, 1)))
-		//	{
-		//		perror("Error with dup2. ");
-		//	}
-			connector = 8;
-		//	close(out);	
-		//	if(-1 == (dup2(saveout, 1)))
-		//	{
-		//		perror("Error with dup2. ");
-		//	}
-			return;
-		}
-		if(*comm_1 == *outt)
-		{
-			connector = 7;
-		}
-		comm_1 = strtok(NULL, " ");
-	}
-	return;
-}*/
 
 /*void piping()
 {
@@ -1007,7 +848,6 @@ void parsing(char *inpt)									//parses by using spaces
 	}
 	if(connector != 6 && connector != 7 && connector != 9 && connector != 10 && connector != 8)
 	{
-		//std::cout << "hi";
 		args.push_back(NULL);
 		exec(args);
 	}	
@@ -1041,11 +881,6 @@ void userlogin()
 int main(int argc, char **argv)
 {
 	std::string usrin;
-//	while(usrin != "exit")
-//	{
-		
-//		preparse(cstr);
-//	}
 	while(usrin != "exit")
 	{
 		userlogin();
@@ -1057,10 +892,8 @@ int main(int argc, char **argv)
 		}
 		char *cstr = new char [usrin.length()+1];
 		std::strcpy (cstr, usrin.c_str());
-	//	preparse(cstr);
 		parsing(cstr);
 		delete []cstr;
 	}
-//	delete []cstr;
 	return 0;	
 }

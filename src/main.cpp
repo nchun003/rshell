@@ -63,9 +63,9 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	std::string tokenS(token);
 
 
-	std::string out1 = ">";
-	char *outt = new char [out1.length()+1];
-	strcpy(outt, out1.c_str());
+//	std::string out1 = ">";
+//	char *outt = new char [out1.length()+1];
+//	strcpy(outt, out1.c_str());
 	
 	std::string ext = "exit";
 	std::string tokenstring = token;

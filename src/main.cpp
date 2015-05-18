@@ -26,12 +26,12 @@ void exec(std::vector<char *> &argv)//char **&argv)
 	}
 	else if(pid == 0)			//Child process
 	{
-<<<<<<< HEAD
-		if(execvp(argv[0], argv))
-=======
+//<<<<<<< HEAD
+//		if(execvp(argv[0], argv))
+//=======
 //		std::cout << "Child Process";	
 		if(-1 == execvp(argv[0], &argv[0]))
->>>>>>> redirect
+//>>>>>>> redirect
 		{
 			perror("execvp");
 			errorcalled++;
@@ -322,14 +322,15 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		return;
 	}
 	char *result = token;
-<<<<<<< HEAD
-	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
-=======
+//<<<<<<< HEAD
+//	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
+
+//=======
 	char col2[] = ";";
 	char *coll2 = col2;
 	while((result = std::strstr(result, coll2)) != NULL){					//Checks if token contains ';'
 //		std::cout << "Found " << coll << "starting at " << result << std::endl;
->>>>>>> redirect
+//>>>>>>> redirect
 		strncpy(result, "\0", 2);
 		if(connector2 == 2)
 		{

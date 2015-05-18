@@ -1,6 +1,6 @@
-Script started on Sun 17 May 2015 06:20:13 PM PDT
+Script started on Sun 17 May 2015 10:34:36 PM PDT
 ~
-nchun003@hammer $ cd[Ks100
+nchun003@hammer $ cs100
 [0;91m
 ===============================================================================
 |                                                                             |
@@ -21,20 +21,24 @@ nchun003@hammer $ cd[Ks100
 |                                                                             |
 ===============================================================================
 [0m
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd Documents & [K& cdr[K rshekk[K[Kll
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat [K[K[K[Kls
-bin  bla2  LICENSE   newakldsjf  newfile       nonexistfile2  README.md  test_file   testing
-bla  bls   Makefile  newfild	 nonexistfile  -r	      src	 testfolder  tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd Documents && cd Rshel[K[K[K[K[Krshell
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls
+bin   bls	     LICENSE	 newfild   nonexistfile   README.md  testfolder
+bla   brandnewfile   Makefile	 newfile   nonexistfile2  src	     testing
+bla2  brandnewfile2  newakldsjf  newfile5  -r		  test_file  tests
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat < bla
 bin
 bla
 bla2
 bls
+brandnewfile
+brandnewfile2
 LICENSE
 Makefile
 newakldsjf
 newfild
 newfile
+newfile5
 nonexistfile
 nonexistfile2
 -r
@@ -44,44 +48,22 @@ test_file
 testfolder
 testing
 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat< doesntexist
-bash: doesntexist: No such file or directory
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat<b[K bla2
-Hsdfasdello bla test file.
-asdfasdHere is the bla test file.
-zxczvThis is the bla test file.
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat [K< doesnotexist
+bash: doesnotexist: No such file or directory
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls > bla
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat bla
 bin
 bla
 bla2
 bls
-LICENSE
-Makefile
-newakldsjf
-newfild
-newfile
-nonexistfile
-nonexistfile2
--r
-README.md
-src
-test_file
-testfolder
-testing
-tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls> brandnewfile
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat<[K < brandnewfile
-bin
-bla
-bla2
-bls
 brandnewfile
+brandnewfile2
 LICENSE
 Makefile
 newakldsjf
 newfild
 newfile
+newfile5
 nonexistfile
 nonexistfile2
 -r
@@ -91,50 +73,8 @@ test_file
 testfolder
 testing
 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls -a > [K[K[K>> [K[K[K >> bla
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat [K< bla
-bin
-bla
-bla2
-bls
-LICENSE
-Makefile
-newakldsjf
-newfild
-newfile
-nonexistfile
-nonexistfile2
--r
-README.md
-src
-test_file
-testfolder
-testing
-tests
-.
-..
-bin
-bla
-bla2
-bls
-brandnewfile
-.git
-LICENSE
-Makefile
-newakldsjf
-newfild
-newfile
-nonexistfile
-nonexistfile2
--r
-README.md
-src
-test_file
-testfolder
-testing
-tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls -a??[K[K>> brandnewfile2
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat b[K< brandnewfile2
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls> newfile2[C[4h [4l[4h-[4l[4ha[4l
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat< newfile2
 .
 ..
 bin
@@ -149,6 +89,78 @@ Makefile
 newakldsjf
 newfild
 newfile
+newfile2
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls>> bla
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat bla
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile2
+newfile5
+nonexistfile
+nonexistfile2
+-r
+README.md
+src
+test_file
+testfolder
+testing
+tests
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls >> newfile3
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat<[K newfile3
+bin
+bla
+bla2
+bls
+brandnewfile
+brandnewfile2
+LICENSE
+Makefile
+newakldsjf
+newfild
+newfile
+newfile2
+newfile3
+newfile5
 nonexistfile
 nonexistfile2
 -r
@@ -168,6 +180,9 @@ README.md
 -r
 nonexistfile2
 nonexistfile
+newfile5
+newfile3
+newfile2
 newfile
 newfild
 newakldsjf
@@ -179,18 +194,24 @@ bls
 bla2
 bla
 bin
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls | [K[K[K| sort
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls [K -a[K[K[K\[K -a|sort[K[K[K[K sort
+.
+..
 bin
 bla
 bla2
 bls
 brandnewfile
 brandnewfile2
+.git
 LICENSE
 Makefile
 newakldsjf
 newfild
 newfile
+newfile2
+newfile3
+newfile5
 nonexistfile
 nonexistfile2
 -r
@@ -200,8 +221,8 @@ test_file
 testfolder
 testing
 tests
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls|so[K[K sort -r> newfile5
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat< newfile5[K[K[K[K[K[K[K[K[K[K < newfile5
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls | sort -r > newfile4
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat newfile4
 tests
 testing
 testfolder
@@ -212,6 +233,9 @@ README.md
 nonexistfile2
 nonexistfile
 newfile5
+newfile4
+newfile3
+newfile2
 newfile
 newfild
 newakldsjf
@@ -223,10 +247,39 @@ bls
 bla2
 bla
 bin
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m ls| sort -r[4h [4l[4h-[4l[4ha[4l[C[C[C[C[C[C[C[C[C| bla[1P bla> bla
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m cat [K< bla
+tests
+testing
+testfolder
+test_file
+src
+README.md
+-r
+nonexistfile2
+nonexistfile
+newfile5
+newfile4
+newfile3
+newfile2
+newfile
+newfild
+newakldsjf
+Makefile
+LICENSE
+.git
+brandnewfile2
+brandnewfile
+bls
+bla2
+bla
+bin
+..
+.
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (redirect) [0;36m$[0m exit
 exit
 ~
-nchun003@hammer $ ex[K[Kexit
+nchun003@hammer $ exit
 exit
 
-Script done on Sun 17 May 2015 06:25:00 PM PDT
+Script done on Sun 17 May 2015 10:39:39 PM PDT

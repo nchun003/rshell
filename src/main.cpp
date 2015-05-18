@@ -449,6 +449,11 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	} 
 	if(std::string::npos != tokenS.find("|"))//*/*token == *p2)
 	{
+		if(tokenS.find("|") != 0)
+		{
+			token[tokenS.find("|")] = '\0';
+			j.push_back(token);
+		}
 		connector2 = 10;
 		//tokens2[x] = j;
 	//	tokens2[x] = &j[0];
@@ -492,7 +497,13 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		/*if(connector2 == 8)
 		{}
 		else{*/
-			connector2 = 6;
+		if(tokenS.find("<") != 0)
+		{
+			token[tokenS.find("<")] = '\0';
+			j.push_back(token);
+		//	std::cout << token[tokenS.find("<")];
+		}
+		connector2 = 6;
 	//	}	
 //		j = NULL;
 //		i = 0; 
@@ -503,6 +514,11 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	}
 	else if(std::string::npos != tokenS.find(">>"))
 	{
+		if(tokenS.find(">>") != 0)
+		{
+			token[tokenS.find(">>")] = '\0';
+			j.push_back(token);
+		}
 		connector2 = 9;
 	}
 //	else if(*token == *outt2)
@@ -516,6 +532,11 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	//		return;
 	//	}
 	//	else{
+		if(tokenS.find(">") != 0)
+		{
+			token[tokenS.find(">")] = '\0';
+			j.push_back(token);
+		}
 		if(connector2 == 10)
 		{
 			connector2 = 8;

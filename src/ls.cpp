@@ -177,7 +177,7 @@ void opendirectory(int argc, char** argv, std::vector<std::string> &f1, std::vec
 		d2.push_back(".");
 		direcsize++;
 		dp = opendir(".");
-		if(-1 == dp)
+		if(NULL == dp)
 		{
 			perror("Opendir Error");
 		}

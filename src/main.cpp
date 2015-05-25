@@ -685,9 +685,22 @@ void userlogin()
 		perror("gethostname() error");
 	}
 }
-		
+	
+static void handler(int signum)
+{
+	return;
+}
+	
 int main(int argc, char **argv)
 {
+	struct sigaction sa;
+	sa.sa_handler = handler;
+	sa.sa_flags = SA_RESTART;
+	
+	if(-1 == sigaction(SIGINT, &sa, NULL))
+	{
+		perror("Error sigaction");	
+	}
 	std::string usrin;
 	while(usrin != "exit")
 	{

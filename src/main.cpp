@@ -384,7 +384,10 @@ void cdfunct(std::vector<char *> c)
 {
 	if(c.empty())
 	{
-		
+		if(-1 == chdir(getenv("HOME")))
+		{
+			perror("Error getenv/chdir");
+		}	
 	}
 	else{
 	const char *b = c[0];

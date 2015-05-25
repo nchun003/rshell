@@ -391,7 +391,8 @@ void cdfunct(std::vector<char *> c)
 			{
 				perror("Error getnv/ chdir");
 			}
-						return;
+			std::cout << get_current_dir_name() << std::endl;
+			return;
 		}
 		const char *b = c[0];
 		if(-1 == setenv("OLDPWD", getenv("PWD"), 1))
@@ -416,13 +417,6 @@ void cdfunct(std::vector<char *> c)
 			perror("Error getenv/chdir");
 		}	
 	}
-	/*else{
-		const char *b = c[0];
-		if(-1 == chdir(b))
-		{
-			perror("Error chdir. ");
-		}
-	}*/
 }
 
 

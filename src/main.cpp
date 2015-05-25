@@ -382,20 +382,47 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	
 void cdfunct(std::vector<char *> c)
 {
-	if(c.empty())
+	if(!c.empty())
 	{
+		std::string token(c[0]);
+		if(std::string::npos != token.find("-"))
+		{
+			if(-1 == chdir(getenv("OLDPWD")))
+			{
+				perror("Error getnv/ chdir");
+			}
+						return;
+		}
+		const char *b = c[0];
+		if(-1 == setenv("OLDPWD", getenv("PWD"), 1))
+		{
+			perror("Error getnv/chdir");
+		}
+		if(-1 == chdir(b))
+		{
+			perror("Error chdir. ");
+		}
+
+	}	
+	else if(c.empty())
+	{
+		if(-1 == setenv("OLDPWD", getenv("PWD"), 1))
+		{
+			perror("Error getnv/chdir");
+		}
+
 		if(-1 == chdir(getenv("HOME")))
 		{
 			perror("Error getenv/chdir");
 		}	
 	}
-	else{
-	const char *b = c[0];
-	if(-1 == chdir(b))
-	{
-		perror("Error chdir. ");
-	}
-	}
+	/*else{
+		const char *b = c[0];
+		if(-1 == chdir(b))
+		{
+			perror("Error chdir. ");
+		}
+	}*/
 }
 
 

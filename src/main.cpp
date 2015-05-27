@@ -685,10 +685,18 @@ void userlogin()
 		perror("gethostname() error");
 	}
 }
-	
+
 static void handler(int signum)
 {
-	return;
+	if(signum == SIGINT){
+		return;
+	}
+	else if(signum == SIGTSTP)
+	{
+		raise(SIGSTOP);			
+		return;
+	}
+		
 }
 	
 int main(int argc, char **argv)
@@ -700,6 +708,10 @@ int main(int argc, char **argv)
 	if(-1 == sigaction(SIGINT, &sa, NULL))
 	{
 		perror("Error sigaction");	
+	}
+	if(-1 == sigaction(SIGTSTP, &sa, NULL))
+	{
+		perror("Error sigaction. ");
 	}
 	std::string usrin;
 	while(usrin != "exit")

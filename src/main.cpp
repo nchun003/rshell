@@ -759,11 +759,13 @@ int main(int argc, char **argv)
 	while(usrin != "exit")
 	{
 		userlogin();
-		std::string dirname(get_current_dir_name());
+		char *buffer = get_current_dir_name();
+		std::string dirname(buffer);
 		if(std::string::npos != dirname.find("/home/csmajs/nchun003"))
 		{
 			dirname.replace(0, 21, "~");	
 		}
+		free(buffer);
 		std::cout << ":" << dirname << " ";
 		std::cout << "$ "; 			
 		std::getline(std::cin,usrin);							//convert to cstring for parsing

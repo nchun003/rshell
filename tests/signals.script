@@ -1,0 +1,81 @@
+Script started on Fri 29 May 2015 12:52:50 AM PDT
+~
+nchun003@hammer $ cd DOcum[K[K[K[K[K[K[K[Kcs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * checksyscalls.sh      is your cpp file doing proper error checking?     |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd DOcum[K[K[K[Kocuments
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents[0;95m [0;36m$[0m cd rshell
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (cd) [0;36m$[0m make
+mkdir -p bin
+g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/main.cpp -o bin/rshell
+mkdir -p bin
+g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/ls.cpp -o bin/ls
+mkdir -p bin
+g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/cp.cpp -o bin/cp
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (cd) [0;36m$[0m bin/rshell
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ls
+bin   bls	     LICENSE	 newfild   newfile3  nonexistfile   README.md  testfolder
+bla   brandnewfile   Makefile	 newfile   newfile4  nonexistfile2  src        testing
+bla2  brandnewfile2  newakldsjf  newfile2  newfile5  -r		    test_file  tests
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cd src
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell/src $ ls
+a.out  cp.cpp  ls.cpp  main.cpp  mv.cc	rm.cc  Timer.h
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell/src $ cd -
+/home/csmajs/nchun003/Documents/rshell
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ls
+bin   bls	     LICENSE	 newfild   newfile3  nonexistfile   README.md  testfolder
+bla   brandnewfile   Makefile	 newfile   newfile4  nonexistfile2  src        testing
+bla2  brandnewfile2  newakldsjf  newfile2  newfile5  -r		    test_file  tests
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cd
+nchun003@hammer.cs.ucr.edu:~ $ ls
+a.out	   bla	      ex01	 Ex02.asm  ex2.asm  ex5.asm	  helloworld.asm  Music     Templates
+assn1.asm  Desktop    Ex.01	 ex1	   ex3.asm  firstrepo	  lab1.tgz	  Pictures  Videos
+assn2.asm  Documents  Ex.01.asm  ex1.asm   ex4.asm  gitlearn	  lab3.asm	  Public
+bin	   Downloads  Ex01.asm	 EX1.asm   ex5	    gitlearn_doc  lc5_ex1.cpp	  rshell
+nchun003@hammer.cs.ucr.edu:~ $ cd -
+/home/csmajs/nchun003/Documents/rshell
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ls
+bin   bls	     LICENSE	 newfild   newfile3  nonexistfile   README.md  testfolder
+bla   brandnewfile   Makefile	 newfile   newfile4  nonexistfile2  src        testing
+bla2  brandnewfile2  newakldsjf  newfile2  newfile5  -r		    test_file  tests
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cat
+hello
+hello
+testing
+testing
+ctrl c!
+ctrl c!
+^Cnchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ps
+  PID TTY          TIME CMD
+37951 pts/59   00:00:00 bash
+38009 pts/59   00:00:00 rshell
+38138 pts/59   00:00:00 ps
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cd invaliddirectory
+Error chdir. : No such file or directory
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ exit
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (cd) [0;36m$[0m exit
+exit
+~
+nchun003@hammer $ exit
+exit
+
+Script done on Fri 29 May 2015 12:54:33 AM PDT

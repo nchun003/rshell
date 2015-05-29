@@ -13,6 +13,8 @@
 #include <fstream>
 
 int errorcalled;
+int child = 0;
+//int out = 0;
 //int out = 0;
 //int connector = 0;
 
@@ -357,6 +359,20 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	{
 		connector2 = 12;
 	}
+	else if(std::string::npos != tokenS.find("fg"))
+	{
+		int errorstat = 1;
+		if(-1 == kill(child, SIGCONT))
+		{
+			perror("Kill Error");
+		}	
+		if(-1 == waitpid(child, &errorstat, WUNTRACED))	
+		{
+			perror("Error waitpid");
+			exit(1);
+		}
+			
+	}
 	else{											//If token is not connector it will get put in j(argv)
 		if(connector2 == 2)
 		{
@@ -693,7 +709,25 @@ static void handler(int signum)
 	}
 	else if(signum == SIGTSTP)
 	{
-		raise(SIGSTOP);			
+		int pid = fork();
+		if(pid == -1){
+			perror("ERROR!");
+			exit(1);
+		}
+		else if(pid == 0)			//Child process
+		{
+			raise(SIGSTOP);
+			exit(1);			//Child killed when done with task
+		}
+		else if(pid > 0)
+		{
+			/*if(wait(0) == -1)		//Waits for child process to finish
+			{	
+				perror("Wait error!");
+			}*/
+		}
+
+	//	raise(SIGSTOP);			
 		return;
 	}
 		
@@ -713,10 +747,24 @@ int main(int argc, char **argv)
 	{
 		perror("Error sigaction. ");
 	}
+//	pid_t pid = fork();
+/*	if(-1 == pid)
+	{
+		perror("fork error");
+	}
+	else if(0 == pid)
+	{
+*/
 	std::string usrin;
 	while(usrin != "exit")
 	{
 		userlogin();
+		std::string dirname(get_current_dir_name());
+		if(std::string::npos != dirname.find("/home/csmajs/nchun003"))
+		{
+			dirname.replace(0, 21, "~");	
+		}
+		std::cout << ":" << dirname << " ";
 		std::cout << "$ "; 			
 		std::getline(std::cin,usrin);							//convert to cstring for parsing
 		if(usrin == "exit")

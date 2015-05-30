@@ -14,9 +14,6 @@
 
 int errorcalled;
 int child = 0;
-//int out = 0;
-//int out = 0;
-//int connector = 0;
 
 void exec(std::vector<char *> &argv)//char **&argv)
 {
@@ -28,12 +25,7 @@ void exec(std::vector<char *> &argv)//char **&argv)
 	}
 	else if(pid == 0)			//Child process
 	{
-//<<<<<<< HEAD
-//		if(execvp(argv[0], argv))
-//=======
-//		std::cout << "Child Process";	
 		if(-1 == execvp(argv[0], &argv[0]))
-//>>>>>>> redirect
 		{
 			perror("execvp");
 			errorcalled++;

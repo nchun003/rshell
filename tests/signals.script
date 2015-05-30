@@ -1,6 +1,6 @@
-Script started on Fri 29 May 2015 12:52:50 AM PDT
+Script started on Fri 29 May 2015 07:14:16 PM PDT
 ~
-nchun003@hammer $ cd DOcum[K[K[K[K[K[K[K[Kcs100
+nchun003@hammer $ cs100
 [0;91m
 ===============================================================================
 |                                                                             |
@@ -21,15 +21,8 @@ nchun003@hammer $ cd DOcum[K[K[K[K[K[K[K[Kcs100
 |                                                                             |
 ===============================================================================
 [0m
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd DOcum[K[K[K[Kocuments
+[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd Documents
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents[0;95m [0;36m$[0m cd rshell
-[s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (cd) [0;36m$[0m make
-mkdir -p bin
-g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/main.cpp -o bin/rshell
-mkdir -p bin
-g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/ls.cpp -o bin/ls
-mkdir -p bin
-g++ -g -Wall -Werror -ansi -pedantic --std=c++11 src/cp.cpp -o bin/cp
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (cd) [0;36m$[0m bin/rshell
 nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ls
 bin   bls	     LICENSE	 newfild   newfile3  nonexistfile   README.md  testfolder
@@ -38,14 +31,7 @@ bla2  brandnewfile2  newakldsjf  newfile2  newfile5  -r		    test_file  tests
 nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cd src
 nchun003@hammer.cs.ucr.edu:~/Documents/rshell/src $ ls
 a.out  cp.cpp  ls.cpp  main.cpp  mv.cc	rm.cc  Timer.h
-nchun003@hammer.cs.ucr.edu:~/Documents/rshell/src $ cd -
-/home/csmajs/nchun003/Documents/rshell
-nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ls
-bin   bls	     LICENSE	 newfild   newfile3  nonexistfile   README.md  testfolder
-bla   brandnewfile   Makefile	 newfile   newfile4  nonexistfile2  src        testing
-bla2  brandnewfile2  newakldsjf  newfile2  newfile5  -r		    test_file  tests
-do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
-nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cd
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell/src $ cd
 nchun003@hammer.cs.ucr.edu:~ $ ls
 a.out	   bla	      ex01	 Ex02.asm  ex2.asm  ex5.asm	  helloworld.asm  Music     Templates
 assn1.asm  Desktop    Ex.01	 ex1	   ex3.asm  firstrepo	  lab1.tgz	  Pictures  Videos
@@ -57,20 +43,19 @@ nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ls
 bin   bls	     LICENSE	 newfild   newfile3  nonexistfile   README.md  testfolder
 bla   brandnewfile   Makefile	 newfile   newfile4  nonexistfile2  src        testing
 bla2  brandnewfile2  newakldsjf  newfile2  newfile5  -r		    test_file  tests
-nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cat
-hello
-hello
-testing
-testing
-ctrl c!
-ctrl c!
-^Cnchun003@hammer.cs.ucr.edu:~/Documents/rshell $ ps
-  PID TTY          TIME CMD
-37951 pts/59   00:00:00 bash
-38009 pts/59   00:00:00 rshell
-38138 pts/59   00:00:00 ps
-nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cd invaliddirectory
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cd dirdoesntexist
 Error chdir. : No such file or directory
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ cat
+hello!
+hello!
+testing^C
+testing^C
+^C
+nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ o ps
+  PID TTY          TIME CMD
+27165 pts/58   00:00:00 bash
+27214 pts/58   00:00:00 rshell
+27373 pts/58   00:00:00 ps
 nchun003@hammer.cs.ucr.edu:~/Documents/rshell $ exit
 [s%%%%%%%%%%[u[0;32mnchun003[0;36m@[0;32mcs100[0;36m:[0;32m~/Documents/rshell[0;95m (cd) [0;36m$[0m exit
 exit
@@ -78,4 +63,4 @@ exit
 nchun003@hammer $ exit
 exit
 
-Script done on Fri 29 May 2015 12:54:33 AM PDT
+Script done on Fri 29 May 2015 07:15:36 PM PDT

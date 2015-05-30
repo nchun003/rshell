@@ -12,14 +12,14 @@ A basic unix command shell with the ability to print a command prompt as well as
 * redirection bug: Cannot use more than one pipe.
 * redirection bug: Cannot use input redirection with piping.
 * redirection bug: Cannot use output redirection, piping and input redirection at the same time.
+* cd bug: ^Z is not usable. 
 
 ### Installation
 
-In order to install this project(from the hammer server):
+In order to install this project:
 ```
 $ git clone https://github.com/nchun003/rshell.git
 $ cd rshell
-$ git checkout hw0
 $ make
 $ bin/rshell
 ```

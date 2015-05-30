@@ -13,8 +13,7 @@
 #include <fstream>
 
 int errorcalled;
-//int out = 0;
-//int connector = 0;
+int child = 0;
 
 void exec(std::vector<char *> &argv)//char **&argv)
 {
@@ -26,12 +25,7 @@ void exec(std::vector<char *> &argv)//char **&argv)
 	}
 	else if(pid == 0)			//Child process
 	{
-//<<<<<<< HEAD
-//		if(execvp(argv[0], argv))
-//=======
-//		std::cout << "Child Process";	
 		if(-1 == execvp(argv[0], &argv[0]))
-//>>>>>>> redirect
 		{
 			perror("execvp");
 			errorcalled++;
@@ -62,15 +56,8 @@ std::vector<std::vector<char *>> tokens2;
 int x = 0;
 void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, int &connector2)		//Checks if a token is a connector
 {
-	//std::vector<char *> tokens;
 	tokens.push_back(token);	
 	std::string tokenS(token);
-
-
-//	std::string out1 = ">";
-//	char *outt = new char [out1.length()+1];
-//	strcpy(outt, out1.c_str());
-	
 	std::string ext = "exit";
 	std::string tokenstring = token;
 	if((ext == tokenstring && connector2 == 3) || (ext == tokenstring && connector2 == 0))
@@ -81,42 +68,9 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	{
 		exit(0);
 	}
-/*	if(connector2 == 8)
-	{
-		int saveout;
-		if(-1 == (saveout = dup(1)))
-		{
-			perror("Error with dup. ");
-		}
-		if(connector2 == 8)
-		{
-			if(-1 == (dup2(out, 1)))
-			{
-				perror("Error with dup2. ");
-			}
-			close(out);
-		}
-		std::cout << "hi";	
-	}*/
 	
 	if(connector2 == 6)// || connector2 == 8)				//If input
 	{
-		//int saveout;
-		//if(-1 == (saveout = dup(1)))
-		//{
-		//	perror("Error with dup. ");
-		//}
-//		char **b = &token;
-//		char *b[] = {token, NULL};
-/*		if(connector2 == 8)
-		{
-			if(-1 == (dup2(out, 1)))
-			{
-				perror("Error with dup2.");
-			}
-			close(out);
-		}
-*/
 		j[1] = token;
 		j[2] = NULL;
 		int pid = fork();
@@ -126,7 +80,6 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		}
 		else if(pid == 0)			//Child process
 		{
-//			j.push_back(NULL);
 			if(-1 == execvp(j[0], &j[0]))//tokens[0], b))//tokens[0], b))
 			{
 				perror("Error execvp.");
@@ -140,10 +93,6 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 				perror("Wait error!");
 			}
 		}
-	//	if(-1 == (dup2(saveout, 1)))
-	//	{
-	//		perror("Error with dup2. ");
-	//	}
 		
 		return;
 	}
@@ -199,24 +148,7 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 			}
 		}
 
-		/*int saveout;
-		if(-1 == (saveout = dup(1)))
-		{
-			perror("Error with dup.");
-		}
-		const char *b = token;
-		int o = open(b, O_WRONLY |O_APPEND | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
-		if(-1 == (dup2(o, 1)))
-		{
-			perror("Error with dup2. ");
-		}
-		close(o);	
-		exec(j);
-		if(-1 == (dup2(saveout, 1)))
-		{
-			perror("Error with dup2. ");
-		}*/
-		return;
+			return;
 	}
 
 	if(connector2 == 7 || connector2 == 8)				//If output
@@ -271,23 +203,7 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 			}
 		}
 		}
-		/*int saveout;
-		if(-1 == (saveout = dup(1)))
-		{
-			perror("Error with dup.");
-		}
-		const char *b = token;
-		int o = open(b, O_WRONLY |O_TRUNC | O_CREAT, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
-		if(-1 == (dup2(o, 1)))
-		{
-		}
-		close(o);	
-		exec(j);
-		if(-1 == (dup2(saveout, 1)))
-		{
-			perror("Error with dup2. ");
-		}*/
-		return;
+			return;
 	}
 
 	if(connector2 == 5)
@@ -322,15 +238,9 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		return;
 	}
 	char *result = token;
-//<<<<<<< HEAD
-//	while((result = std::strstr(result, coll)) != NULL){					//Checks if token contains ';'
-
-//=======
 	char col2[] = ";";
 	char *coll2 = col2;
 	while((result = std::strstr(result, coll2)) != NULL){					//Checks if token contains ';'
-//		std::cout << "Found " << coll << "starting at " << result << std::endl;
-//>>>>>>> redirect
 		strncpy(result, "\0", 2);
 		if(connector2 == 2)
 		{
@@ -342,7 +252,6 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		}
 		connector2 = 1;
 		++result;
-	//	free(coll);
 	}
 	if(std::string::npos != tokenS.find("||"))//*/*token == *orr)									//Everything before || will get executed
 	{
@@ -390,10 +299,6 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		return;
 	}
 
-	//std::string sand = "&&";
-	//char *andd = new char [sand.length()+1];
-	//strcpy(andd, sand.c_str());
-
 	else if(std::string::npos != tokenS.find("&&"))//*/*token == *andd)
 	{
 		connector2 = 3;
@@ -410,12 +315,6 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 	}
 	else if(std::string::npos != tokenS.find("<"))//*/*token == *inn)
 	{
-	//	int fd[2];
-	//	pipe(fd);
-	//	dup(fd[0]);
-		/*if(connector2 == 8)
-		{}
-		else{*/
 		if(tokenS.find("<") != 0)
 		{
 			token[tokenS.find("<")] = '\0';
@@ -423,13 +322,6 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		//	std::cout << token[tokenS.find("<")];
 		}
 		connector2 = 6;
-	//	}	
-//		j = NULL;
-//		i = 0; 
-		//redirection(j);
-	//	exec(j);
-	//	return;
-	//	delete []inn;
 	}
 	else if(std::string::npos != tokenS.find(">>"))
 	{
@@ -440,17 +332,8 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		}
 		connector2 = 9;
 	}
-//	else if(*token == *outt2)
-//	{
-//		std::cout << "double out";
-//	}
 	else if(std::string::npos != tokenS.find(">"))/**token == *outt)*/
 	{
-	//	if(connector2 == 8)
-	//	{
-	//		return;
-	//	}
-	//	else{
 		if(tokenS.find(">") != 0)
 		{
 			token[tokenS.find(">")] = '\0';
@@ -463,10 +346,24 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		else{
 			connector2 = 7;
 		}
-	//	}
-//		j = NULL;
-//		i = 0;
-	//	delete []outt;
+	}
+	else if(std::string::npos != tokenS.find("cd"))
+	{
+		connector2 = 12;
+	}
+	else if(std::string::npos != tokenS.find("fg"))
+	{
+		int errorstat = 1;
+		if(-1 == kill(child, SIGCONT))
+		{
+			perror("Kill Error");
+		}	
+		if(-1 == waitpid(child, &errorstat, WUNTRACED))	
+		{
+			perror("Error waitpid");
+			exit(1);
+		}
+			
 	}
 	else{											//If token is not connector it will get put in j(argv)
 		if(connector2 == 2)
@@ -477,67 +374,8 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 		j.push_back(token);
 				return;
 	}
-/*	if(connector2 == 11)
-	{
-		std::cout << "hi2";
-		//char *a = {"sort", "-r", NULL};
-		//const char *b[] = {"sort", "-r", NULL};
-		//char *b = new char[3];
-		//char **a;
-		//strcpy(*a, &b);
-		//char **a = &b;
 
-		//char *a = "hi";
-		//char *const b[] = {a};
-		int pid;
-		int pipefd[2];
-		if(-1 == pipe(pipefd))
-		{
-			perror("Error pipe. ");
-		}
-		pid = fork();
-		if(pid == -1)
-		{
-			perror("Fork error. ");
-		}
-		else if(pid == 0)
-		{
-			
-			if(-1 == dup2(pipefd[0], 0))
-			{
-				perror("Error dup2.");
-			}
-			if(-1 == close(pipefd[1]))
-			{
-				perror("Error close. ");
-			}
-			if(-1 == execvp(tokens2[1][0], tokens2[1]))
-			{
-				perror("Error execvp. ");
-			}
-		}
-		else if(pid > 0)
-		{
-			//if(wait(0) == -1)
-			//{
-			//	perror("Wait error. ");
-			//}
-			if(-1 == dup2(pipefd[1], 1))
-			{
-				perror("Error dup2. ");
-			}
-			if(-1 == close(pipefd[0]))
-			{
-				perror("Error close. ");
-			}
-			if(-1 == execvp(tokens2[0][0], tokens2[0]))
-			{
-				perror("Error execvp. ");
-			}
-		}
-		return;
-	}	
-*/	if(connector2 == 1)									//If ; connector was found, everything before is executed
+	if(connector2 == 1)									//If ; connector was found, everything before is executed
 	{
 		j.push_back(NULL);
 		exec(j);
@@ -550,49 +388,46 @@ void  findconnectors(char *token,int &i, std::vector<char *> &j, int &capacity, 
 
 }
 	
-
-/*void piping()
+void cdfunct(std::vector<char *> c)
 {
-		int pid;
-		int pipefd[2];
-		if(-1 == pipe(pipefd))
+	if(!c.empty())
+	{
+		std::string token(c[0]);
+		if(std::string::npos != token.find("-"))
 		{
-			perror("Error pipe. ");
-		}
-		pid = fork();
-		if(pid == -1)
-		{
-			perror("Fork error. ");
-		}
-		else if(pid == 0)
-		{
-			if(-1 == dup2(pipefd[0], 0))
+			if(-1 == chdir(getenv("OLDPWD")))
 			{
-				perror("Error dup2.");
+				perror("Error getnv/ chdir");
 			}
-			if(-1 == close(pipefd[1]))
-			{
-				perror("Error close. ");
-			}
-			if(-1 == execvp(tokens2[1][0], tokens2[1]))
-			{
-				perror("Error execvp. ");
-			}
+			std::cout << get_current_dir_name() << std::endl;
+			return;
 		}
-		else if(pid > 0)
+		const char *b = c[0];
+		if(-1 == setenv("OLDPWD", getenv("PWD"), 1))
 		{
-			//if(wait(0) == -1)
-			//{
-			//	perror("Wait error. ");
-			//}	
-			//for(int i = 0; i <= 1 ; ++i)
-			//{
-			close(pipefd[1]);
-			close(pipefd[0]);
-			piping;
+			perror("Error getnv/chdir");
 		}
+		if(-1 == chdir(b))
+		{
+			perror("Error chdir. ");
+		}
+
+	}	
+	else if(c.empty())
+	{
+		if(-1 == setenv("OLDPWD", getenv("PWD"), 1))
+		{
+			perror("Error getnv/chdir");
+		}
+
+		if(-1 == chdir(getenv("HOME")))
+		{
+			perror("Error getenv/chdir");
+		}	
+	}
 }
-*/	
+
+
 void parsing(char *inpt)									//parses by using spaces
 {
 //	std::cout << "parsing called";
@@ -605,20 +440,6 @@ void parsing(char *inpt)									//parses by using spaces
 	//char *comm_1 = strtok(inpt, " ");
 	char *comm_2 = strtok(inpt, " ");
 		
-	
-//	comm_1 = strtok(inpt," ");
-//	char *p = strchr(inpt, '>');
-	//printf("found at %d\n", p);
-//	if(p != NULL)
-//	{
-//		std::cout << "hi";
-//	}
-//	else
-//	{
-		//std::cout << "bye";
-//	}
-//	char *comm_2 = strtok(inpt, " ");
-
 	while(comm_2 != NULL)
 	{
 		findconnectors(comm_2,numarg, args, cap, connector);
@@ -628,24 +449,6 @@ void parsing(char *inpt)									//parses by using spaces
 	{
 		args.push_back(NULL);
 		tokens2.push_back(args);
-		//args.push_back(NULL);
-		//tokens2.push_back(args);
-		//if(connector2 == 10)
-		//{
-		//	std::cout << "bye";
-			//tokens2[x] = args;
-			//tokens2[x] = &args[0];
-	//		tokens2.push_back(args);
-			x++;
-		//}
-		//char *a = {"sort", "-r", NULL};
-		//const char *b[] = {"sort", "-r", NULL};
-		//char *b = new char[3];
-		//char **a;
-		//strcpy(*a, &b);
-		//char **a = &b;
-		//char *a = "hi";
-		//char *const b[] = {a};
 		if(connector == 8)
 		{
 			int saveout;
@@ -855,7 +658,11 @@ void parsing(char *inpt)									//parses by using spaces
 	{
 		return;
 	}
-	if(connector != 6 && connector != 7 && connector != 9 && connector != 10 && connector != 8)
+	if(connector == 12)
+	{
+		cdfunct(args);	
+	}
+	if(connector != 6 && connector != 7 && connector != 9 && connector != 10 && connector != 8 && connector != 12)
 	{
 		args.push_back(NULL);
 		exec(args);
@@ -886,13 +693,81 @@ void userlogin()
 		perror("gethostname() error");
 	}
 }
+
+static void handler(int signum)
+{
+//	std::cout << "bye";
+	if(signum == SIGINT){
+		std::cout << std::endl;
+		return;
+	}
+	if(signum == SIGTSTP)
+	{
+		std::cout << "stop";
+		/*int pid = fork();
+		if(pid == -1){
+			perror("ERROR!");
+			exit(1);
+		}
+		else if(pid == 0)			//Child process
+		{
+			raise(SIGSTOP);
+		//	exit(1);			//Child killed when done with task
+		}
+		else if(pid > 0)
+		{
+			if(wait(0) == -1)		//Waits for child process to finish
+			{	
+				perror("Wait error!");
+			}
+		}
+//		raise(SIGSTOP);			
+	*/	return;
+	}
 		
+}
+	
 int main(int argc, char **argv)
 {
+	struct sigaction sa;
+	sa.sa_handler = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+
+	struct sigaction sa2;
+	sa2.sa_handler = handler;
+	sigemptyset(&sa2.sa_mask);
+	sa2.sa_flags = SA_RESTART;
+
+	
+	if(-1 == sigaction(SIGINT, &sa, NULL))
+	{
+		perror("Error sigaction");	
+	}
+	if(-1 == sigaction(SIGTSTP, &sa2, NULL))
+	{
+		perror("Error sigaction. ");
+	}
+	//	pid_t pid = fork();
+/*	if(-1 == pid)
+	{
+		perror("fork error");
+	}
+	else if(0 == pid)
+	{
+*/
 	std::string usrin;
 	while(usrin != "exit")
 	{
 		userlogin();
+		char *buffer = get_current_dir_name();
+		std::string dirname(buffer);
+		if(std::string::npos != dirname.find("/home/csmajs/nchun003"))
+		{
+			dirname.replace(0, 21, "~");	
+		}
+		free(buffer);
+		std::cout << ":" << dirname << " ";
 		std::cout << "$ "; 			
 		std::getline(std::cin,usrin);							//convert to cstring for parsing
 		if(usrin == "exit")

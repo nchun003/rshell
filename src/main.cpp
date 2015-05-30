@@ -704,12 +704,15 @@ void userlogin()
 
 static void handler(int signum)
 {
+//	std::cout << "bye";
 	if(signum == SIGINT){
+		std::cout << std::endl;
 		return;
 	}
-	else if(signum == SIGTSTP)
+	if(signum == SIGTSTP)
 	{
-		int pid = fork();
+		std::cout << "stop";
+		/*int pid = fork();
 		if(pid == -1){
 			perror("ERROR!");
 			exit(1);
@@ -717,18 +720,17 @@ static void handler(int signum)
 		else if(pid == 0)			//Child process
 		{
 			raise(SIGSTOP);
-			exit(1);			//Child killed when done with task
+		//	exit(1);			//Child killed when done with task
 		}
 		else if(pid > 0)
 		{
-			/*if(wait(0) == -1)		//Waits for child process to finish
+			if(wait(0) == -1)		//Waits for child process to finish
 			{	
 				perror("Wait error!");
-			}*/
+			}
 		}
-
-	//	raise(SIGSTOP);			
-		return;
+//		raise(SIGSTOP);			
+	*/	return;
 	}
 		
 }
@@ -737,17 +739,24 @@ int main(int argc, char **argv)
 {
 	struct sigaction sa;
 	sa.sa_handler = handler;
+	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
+
+	struct sigaction sa2;
+	sa2.sa_handler = handler;
+	sigemptyset(&sa2.sa_mask);
+	sa2.sa_flags = SA_RESTART;
+
 	
 	if(-1 == sigaction(SIGINT, &sa, NULL))
 	{
 		perror("Error sigaction");	
 	}
-	if(-1 == sigaction(SIGTSTP, &sa, NULL))
+	if(-1 == sigaction(SIGTSTP, &sa2, NULL))
 	{
 		perror("Error sigaction. ");
 	}
-//	pid_t pid = fork();
+	//	pid_t pid = fork();
 /*	if(-1 == pid)
 	{
 		perror("fork error");

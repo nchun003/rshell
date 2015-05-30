@@ -16,7 +16,7 @@ A basic unix command shell with the ability to print a command prompt as well as
 
 ### Installation
 
-In order to install this project(from the hammer server):
+In order to install this project:
 ```
 $ git clone https://github.com/nchun003/rshell.git
 $ cd rshell
